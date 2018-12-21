@@ -13,10 +13,10 @@ function GenericUnit.new(world)
   self.size = 50
   self.strength = 200
 
-  self.body = love.physics.newBody(world, 650/2, 650/2, "dynamic")
+  self.body = love.physics.newBody(world, 650/2 + math.random(5), 650/2 + math.random(5), "dynamic")
   self.shape = love.physics.newCircleShape(self.size / 2)
   self.fixture = love.physics.newFixture(self.body, self.shape, 1) -- Attach fixture to body and give it a density of 1.
-  self.fixture:setRestitution(0.0)
+  self.fixture:setRestitution(0.2)
 
   return self
 end
