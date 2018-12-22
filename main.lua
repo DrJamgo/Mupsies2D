@@ -1,16 +1,25 @@
+if arg[#arg] == "-debug" then require("mobdebug").start() end
+
 require 'unit'
 require 'maps/maploader'
+-- love.filesystem.load("tiledloader.lua")()
 
-currentmap = require('maps/map0')
+local sti = require "sti"
+
+--currentmap = require('maps/map0')
 displayTransform = love.math.newTransform()
 
 function love.load()
-  if arg[#arg] == "-debug" then require("mobdebug").start() end
+  
   
   love.physics.setMeter(64) --the height of a meter our worlds will be 64px
   world = love.physics.newWorld(0, 0, true)
 
-  mapobjects = maploader.load(world, currentmap)
+  --mapobjects = maploader.load(world, currentmap)
+  
+  map = sti("maps/map0.lua", { "box2d" })
+  
+  map:box2d_init(world)
 
   numballs = 5
   objects = {} -- table to hold all our physical objects
@@ -59,20 +68,25 @@ end
 
 function love.draw()
   
+  love.graphics.setColor(255, 255, 255)
   displayTransform = love.math.newTransform()
+  displayTransform:scale(2.0)
   love.graphics.replaceTransform(displayTransform)
   
   love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
+
+	map:draw(0,0,2.0,2.0)
+  --map:box2d_draw()
 
   for i = 1, numballs do
     objects.ball[i]:draw()
   end
 
-  for k, v in pairs(mapobjects) do
-    if v.draw ~= nil then
-      v:draw()
-    end
-  end
+--  for k, v in pairs(mapobjects) do
+--    if v.draw ~= nil then
+--      v:draw()
+--    end
+--  end
 
 
 end

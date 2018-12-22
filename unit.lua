@@ -10,7 +10,7 @@ GenericUnit.image_center = {32,32}
 function GenericUnit.new(world)
   local self = setmetatable({}, GenericUnit)
 
-  self.size = 50
+  self.size = 24
   self.strength = 200
 
   self.body = love.physics.newBody(world, 650/2 + math.random(5), 650/2 + math.random(5), "dynamic")
