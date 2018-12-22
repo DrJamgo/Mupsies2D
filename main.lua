@@ -12,7 +12,7 @@ displayTransform = love.math.newTransform()
 function love.load()
   
   
-  love.physics.setMeter(64) --the height of a meter our worlds will be 64px
+  love.physics.setMeter(32) --the height of a meter our worlds will be 64px
   world = love.physics.newWorld(0, 0, true)
 
   --mapobjects = maploader.load(world, currentmap)
@@ -76,7 +76,7 @@ function love.draw()
   love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 
 	map:draw(0,0,2.0,2.0)
-  --map:box2d_draw()
+  map:box2d_draw()
 
   for i = 1, numballs do
     objects.ball[i]:draw()

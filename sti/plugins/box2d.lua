@@ -41,8 +41,8 @@ return {
 			if userdata.properties.dynamic == true then
 				currentBody = love.physics.newBody(world, map.offsetx, map.offsety, 'dynamic')
 			end
-
-			local fixture = love.physics.newFixture(currentBody, shape)
+      
+			local fixture = love.physics.newFixture(currentBody, shape, userdata.properties.density)
 
 			fixture:setUserData(userdata)
 
