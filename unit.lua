@@ -11,12 +11,14 @@ function GenericUnit.new(world)
   local self = setmetatable({}, GenericUnit)
 
   self.size = 24
-  self.strength = 200
+  self.strength = 15
 
   self.body = love.physics.newBody(world, 650/2 + math.random(5), 650/2 + math.random(5), "dynamic")
   self.shape = love.physics.newCircleShape(self.size / 2)
   self.fixture = love.physics.newFixture(self.body, self.shape, 1) -- Attach fixture to body and give it a density of 1.
   self.fixture:setRestitution(0.2)
+  self.speed = 2.0
+  self.boost = 0.0
 
   return self
 end
@@ -27,6 +29,10 @@ end
 
 function GenericUnit.update(self, dt)
 
+  if self.boost > 0 then
+    self.boost = self.boost - dt * self.speed
+  end
+
   if self.target ~= nil then
     diffx, diffy = unpack(self.target)
     diffx = diffx - self.body:getX()
@@ -34,7 +40,11 @@ function GenericUnit.update(self, dt)
     dist = math.sqrt(diffx*diffx + diffy*diffy)
     self.dir = math.atan2(diffy, diffx)
     force = math.min(1, dist / self.size) * self.strength
-    self.body:applyForce(force * math.cos(self.dir), force * math.sin(self.dir))
+    --self.body:applyForce(force * math.cos(self.dir), force * math.sin(self.dir))
+    if self.boost <= 0 then
+      self.body:applyLinearImpulse(force * math.cos(self.dir), force * math.sin(self.dir))
+      self.boost = self.boost + (1 / self.speed)
+    end
   end
 
   velox, veloy = self.body:getLinearVelocity()
