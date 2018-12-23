@@ -17,9 +17,17 @@ function love.load()
 
   --mapobjects = maploader.load(world, currentmap)
   
-  map = sti("maps/map0.lua", { "box2d" })
+  map = sti("maps/map1.lua", { "box2d" })
   
   map:box2d_init(world)
+
+  local spawn = {0,0}
+  for k,v in pairs(map.objects) do
+    local o = map.objects[k]
+    if o.name == "spawn" then
+      spawn = {x=o.x,y=o.y}
+    end
+  end
 
   numballs = 5
   objects = {} -- table to hold all our physical objects
@@ -28,7 +36,7 @@ function love.load()
   objects.ball = {}
 
   for i = 0, numballs do
-    objects.ball[i] = GenericUnit.new(world)
+    objects.ball[i] = GenericUnit.new(world, spawn)
   end
  
   --initial graphics setup

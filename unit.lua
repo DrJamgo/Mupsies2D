@@ -7,13 +7,13 @@ GenericUnit.__index = GenericUnit
 GenericUnit.image = love.graphics.newImage("Mupsie.png")
 GenericUnit.image_center = {32,32}
 
-function GenericUnit.new(world)
+function GenericUnit.new(world, spawn)
   local self = setmetatable({}, GenericUnit)
 
   self.size = 24
   self.strength = 15
 
-  self.body = love.physics.newBody(world, 650/2 + math.random(5), 650/2 + math.random(5), "dynamic")
+  self.body = love.physics.newBody(world, spawn.x + math.random(5), spawn.y + math.random(5), "dynamic")
   self.shape = love.physics.newCircleShape(self.size / 2)
   self.fixture = love.physics.newFixture(self.body, self.shape, 1) -- Attach fixture to body and give it a density of 1.
   self.fixture:setRestitution(0.2)
