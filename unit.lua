@@ -25,9 +25,12 @@ function GenericUnit.new(world, spawn, fraction)
   self.fixture:setRestitution(0.2)
   self.speed = 2.0
   self.boost = 0.0
+  self.slashcooldown = 0.0
   self.walk = 0.0
+  self.attack = 0.0
   self.anim = 'stand'
   self.fraction = fraction
+  self.reach = 8
 
   return self
 end
@@ -58,14 +61,20 @@ function GenericUnit.moveTo(self, dt, target)
   end
 end
 
-function GenericUnit.update(self, dt)
+function GenericUnit.update(self, dt, layer)
 
+  -- update movement intention
   self:moveTo(dt, self.target)
 
+  -- update cooldowns
   if self.boost > 0 then
     self.boost = self.boost - dt * self.speed
   end
+  if self.slashcooldown > 0 then
+    self.slashcooldown = self.slashcooldown - dt * self.speed
+  end
 
+  -- update movement resistances
   velox, veloy = self.body:getLinearVelocity()
   veloabs = math.max(math.abs(velox),math.abs(veloy))
   if veloabs < 10 then
@@ -77,6 +86,25 @@ function GenericUnit.update(self, dt)
     forcey = math.min(self.strength * 20, math.max(-self.strength * 20, veloy * math.abs(veloy) * 0.1))
     self.body:applyForce(- (velox), - (veloy))
   end
+  
+  --update attack stuff
+  for k,v in pairs(layer.units) do
+    if v:getFraction() ~= self.fraction then
+      distance, x1, y1, x2, y2 = love.physics.getDistance(self.fixture, v.fixture)
+      if distance < self.reach then
+        self.anim = 'slash'
+        self.slash = (self.slash or 0) + dt * 2
+        if self.slashcooldown <= 0 then
+            self.slash = 0
+            self.slashcooldown = 1
+            local dir = math.atan2(y2 - y1, x2 - x1)
+            
+            v.body:applyLinearImpulse(math.cos(dir) * 10, math.sin(dir) * 10)
+        end
+      end
+    end
+  end
+  
 end
 
 function GenericUnit.draw(self, displayTransform)
@@ -84,6 +112,12 @@ function GenericUnit.draw(self, displayTransform)
     s = self.shape:getRadius() / 16
     --transform = love.math.newTransform(self.body:getX(), self.body:getY(), self.dir, s, s, unpack(self.image_center))
     transform = love.math.newTransform(self.body:getX(), self.body:getY(), 0, s, s, unpack(self.image_center))
-    love.graphics.draw(self.image, lpcsprite.getQuad(self.anim, self.dir, self.walk), transform)
+    local quad
+    if self.anim == 'walk' then
+      quad = lpcsprite.getQuad(self.anim, self.dir, self.walk)
+    else
+      quad = lpcsprite.getQuad(self.anim, self.dir, self.slash)
+    end
+    love.graphics.draw(self.image, quad, transform)
     --love.graphics.circle( 'line', self.body:getX(), self.body:getY(), self.size/2)
 end

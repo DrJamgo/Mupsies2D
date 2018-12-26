@@ -51,7 +51,6 @@ animations.walk.quads = calculateQuads(animations.walk)
 -- SLASH
 --
 animations.slash = {
-  cycles = 1,
   frames = 5,
   batchoffsetx = 1,
   batchoffsety = 4 * 3
@@ -68,8 +67,12 @@ function lpcsprite.getQuad(animname, dir, time)
   time = time or 0
   if animations[animname].quads then
     local dirindex = 1 + math.floor(((dir or 0) / math.pi * 2 + 0.5) % 4)
-    local num = animations[animname].cycles
-    local animindex = math.floor(time / num * animations[animname].frames) % animations[animname].frames + 1
+    local animindex
+    if animations[animname].cycles ~= nil then
+      animindex = math.floor(time / animations[animname].cycles * animations[animname].frames) % animations[animname].frames + 1
+    else
+      animindex = math.min(1 + math.floor(time * animations[animname].frames), animations[animname].frames)
+    end
     return animations[animname].quads[dirindex][animindex]
   else
     print("animation '" .. animname .. "' not found")

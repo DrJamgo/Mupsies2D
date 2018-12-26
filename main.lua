@@ -20,9 +20,13 @@ function love.load()
 
   -- find Spawn objetct in map
   local spawn = {x=0,y=0}
+  local enemy = {x=200,y=200}
   for k, o in pairs(map.objects) do
     if o.name == "spawn" then
       spawn = {x=o.x,y=o.y}
+    end
+    if o.name == "enemy" then
+      enemy = {x=o.x,y=o.y}
     end
   end
   
@@ -31,9 +35,11 @@ function love.load()
   
   layer.units = {}
 
-  for i = 1, 5 do
+  for i = 1, 1 do
     layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
   end
+  
+  layer.units[#layer.units+1] = GenericUnit(world, enemy, 'enemy')
  
   -- Draw units layer
 	layer.draw = function(self)
@@ -45,12 +51,14 @@ function love.load()
   -- Update units layer
 	layer.update = function(self, dt)
     for k,v in pairs(self.units) do
-      if mybutton == 1 then
-        v:setTarget({wx,wy})
-      elseif mybutton == 2 then
-        v:setTarget(nil)
+      if v:getFraction() == 'player' then
+        if mybutton == 1 then
+          v:setTarget({wx,wy})
+        elseif mybutton == 2 then
+          v:setTarget(nil)
+        end
       end
-      v:update(dt)
+      v:update(dt, layer)
     end
 	end
  
