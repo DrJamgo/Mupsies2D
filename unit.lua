@@ -1,32 +1,12 @@
 require 'love'
 require 'love.physics'
+local lpcsprite = require('sprites/lpcsprite')
 
 GenericUnit = {}
 GenericUnit.__index = GenericUnit
 
-GenericUnit.image = love.graphics.newImage("mupsie.png")
-GenericUnit.quads = {}
-GenericUnit.quads.walk = {}
-
-local GRID = 64
-local dirlookup = {3, 2, 1, 0}
-
-local offsets = {}
-offsets.walk = GRID * 4 * 2
-
-for i = 1, 4 do
-  GenericUnit.quads.walk[i] = {}
-  for j = 1, 8 do
-    GenericUnit.quads.walk[i][j] = love.graphics.newQuad(
-      j * GRID,
-      offsets.walk + GRID * dirlookup[i],
-      GRID, GRID, GenericUnit.image:getDimensions())
-  end
-end
-
-
+GenericUnit.image = love.graphics.newImage("sprites/mupsie.png")
 GenericUnit.image_center = {32,48}
-
 
 function GenericUnit.new(world, spawn)
   local self = setmetatable({}, GenericUnit)
@@ -41,6 +21,7 @@ function GenericUnit.new(world, spawn)
   self.speed = 2.0
   self.boost = 0.0
   self.walk = 0.0
+  self.anim = 'stand'
 
   return self
 end
@@ -68,13 +49,22 @@ function GenericUnit.update(self, dt)
       self.boost = self.boost + (1 / self.speed)
     end
     
-    self.walk = (self.walk + dt * self.speed * 8) % 8
+    self.anim = 'walk'
   end
 
+  
+
   velox, veloy = self.body:getLinearVelocity()
-  forcex = math.min(self.strength, math.max(-self.strength, velox * math.abs(velox) * 0.1))
-  forcey = math.min(self.strength, math.max(-self.strength, veloy * math.abs(veloy) * 0.1))
-  self.body:applyForce(- (velox), - (veloy))
+  veloabs = math.max(math.abs(velox),math.abs(veloy))
+  if veloabs < 10 then
+    self.body:setLinearVelocity(0,0)
+    self.anim = 'stand'
+  else
+    self.walk = self.walk + dt * (veloabs / 16) * 2
+    forcex = math.min(self.strength * 20, math.max(-self.strength * 20, velox * math.abs(velox) * 0.1))
+    forcey = math.min(self.strength * 20, math.max(-self.strength * 20, veloy * math.abs(veloy) * 0.1))
+    self.body:applyForce(- (velox), - (veloy))
+  end
 end
 
 function GenericUnit.draw(self, displayTransform)
@@ -82,7 +72,6 @@ function GenericUnit.draw(self, displayTransform)
     s = self.shape:getRadius() / 16
     --transform = love.math.newTransform(self.body:getX(), self.body:getY(), self.dir, s, s, unpack(self.image_center))
     transform = love.math.newTransform(self.body:getX(), self.body:getY(), 0, s, s, unpack(self.image_center))
-    local dirindex = 1 + math.floor(((self.dir or 0) / math.pi * 2 + 0.5) % 4)
-    love.graphics.draw(self.image, GenericUnit.quads.walk[dirindex][math.floor(self.walk)+1], transform)
+    love.graphics.draw(self.image, lpcsprite.getQuad(self.anim, self.dir, self.walk), transform)
     --love.graphics.circle( 'line', self.body:getX(), self.body:getY(), self.size/2)
 end
