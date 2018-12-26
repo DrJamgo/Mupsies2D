@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 17,
+  nextobjectid = 18,
   properties = {},
   tilesets = {
     {
@@ -263,8 +263,21 @@ return {
           name = "spawn",
           type = "",
           shape = "rectangle",
-          x = 151,
-          y = 153,
+          x = 98.3333,
+          y = 155.333,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 17,
+          name = "enemy",
+          type = "",
+          shape = "rectangle",
+          x = 231.667,
+          y = 175,
           width = 0,
           height = 0,
           rotation = 0,

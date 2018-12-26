@@ -25,16 +25,34 @@ function love.load()
       spawn = {x=o.x,y=o.y}
     end
   end
+  
+  -- Create new dynamic data layer called "Sprites" as the 8th layer
+	local layer = map:addCustomLayer("units")
+  
+  layer.units = {}
 
-  numballs = 5
-  objects = {}
-
-  --let's create a ball
-  objects.ball = {}
-
-  for i = 1, numballs do
-    objects.ball[i] = GenericUnit(world, spawn)
+  for i = 1, 5 do
+    layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
   end
+ 
+  -- Draw units layer
+	layer.draw = function(self)
+    for k,v in utils.spairs(self.units, function(o,a,b) return o[b].body:getY() > o[a].body:getY() end) do
+      v:draw()
+    end
+	end
+  
+  -- Update units layer
+	layer.update = function(self, dt)
+    for k,v in pairs(self.units) do
+      if mybutton == 1 then
+        v:setTarget({wx,wy})
+      elseif mybutton == 2 then
+        v:setTarget(nil)
+      end
+      v:update(dt)
+    end
+	end
  
   --initial graphics setup
   love.graphics.setBackgroundColor(0.41, 0.53, 0.97) --set the background color to a nice blue
@@ -54,24 +72,12 @@ function love.mousemoved( x, y, dx, dy, istouch )
 
   wx, wy = displayTransform:inverseTransformPoint( x, y )
 
-  for i = 1, numballs do
-    if mybutton == 1 then
-      objects.ball[i]:setTarget({wx,wy})
-    elseif mybutton == 2 then
-      objects.ball[i]:setTarget(nil)
-    end
-  end
 end
 
 function love.update(dt)
-  for i = 1, numballs do
-  	objects.ball[i]:update(dt)
-  end
-
   map:update(dt)
   world:update(dt) --this puts the world into motion
 end
-
 
 function love.draw()
   
@@ -84,9 +90,5 @@ function love.draw()
 
 	map:draw(0,0,2.0,2.0)
   --map:box2d_draw()
-
-for k,v in utils.spairs(objects.ball, function(o,a,b) return o[b].body:getY() > o[a].body:getY() end) do
-    v:draw()
-end
 
 end

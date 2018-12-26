@@ -13,7 +13,7 @@ setmetatable(GenericUnit, {
 GenericUnit.image = love.graphics.newImage("sprites/mupsie.png")
 GenericUnit.image_center = {32,48}
 
-function GenericUnit.new(world, spawn)
+function GenericUnit.new(world, spawn, fraction)
   local self = setmetatable({}, GenericUnit)
 
   self.size = 24
@@ -27,20 +27,20 @@ function GenericUnit.new(world, spawn)
   self.boost = 0.0
   self.walk = 0.0
   self.anim = 'stand'
+  self.fraction = fraction
 
   return self
+end
+
+function GenericUnit.getFraction(self)
+  return self.fraction
 end
 
 function GenericUnit.setTarget(self, target)
   self.target = target
 end
 
-function GenericUnit.update(self, dt)
-
-  if self.boost > 0 then
-    self.boost = self.boost - dt * self.speed
-  end
-
+function GenericUnit.moveTo(self, dt, target)
   if self.target ~= nil then
     diffx, diffy = unpack(self.target)
     diffx = diffx - self.body:getX()
@@ -55,6 +55,15 @@ function GenericUnit.update(self, dt)
     end
     
     self.anim = 'walk'
+  end
+end
+
+function GenericUnit.update(self, dt)
+
+  self:moveTo(dt, self.target)
+
+  if self.boost > 0 then
+    self.boost = self.boost - dt * self.speed
   end
 
   velox, veloy = self.body:getLinearVelocity()
