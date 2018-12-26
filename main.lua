@@ -5,37 +5,34 @@ require 'maps/maploader'
 -- love.filesystem.load("tiledloader.lua")()
 
 local sti = require "sti"
-
+local utils = require "utils"
 --currentmap = require('maps/map0')
 displayTransform = love.math.newTransform()
 
 function love.load()
   
-  
   love.physics.setMeter(32) --the height of a meter our worlds will be 64px
   world = love.physics.newWorld(0, 0, true)
 
-  --mapobjects = maploader.load(world, currentmap)
-  
-  map = sti("maps/map1.lua", { "box2d" })
-  
+  -- load map and initialize box2d objects
+  map = sti("maps/map0.lua", { "box2d" })
   map:box2d_init(world)
 
-  local spawn = {0,0}
-  for k,v in pairs(map.objects) do
-    local o = map.objects[k]
+  -- find Spawn objetct in map
+  local spawn = {x=0,y=0}
+  for k, o in pairs(map.objects) do
     if o.name == "spawn" then
       spawn = {x=o.x,y=o.y}
     end
   end
 
   numballs = 5
-  objects = {} -- table to hold all our physical objects
+  objects = {}
 
   --let's create a ball
   objects.ball = {}
 
-  for i = 0, numballs do
+  for i = 1, numballs do
     objects.ball[i] = GenericUnit.new(world, spawn)
   end
  
@@ -74,6 +71,7 @@ function love.update(dt)
   world:update(dt) --this puts the world into motion
 end
 
+
 function love.draw()
   
   love.graphics.setColor(255, 255, 255)
@@ -86,15 +84,8 @@ function love.draw()
 	map:draw(0,0,2.0,2.0)
   map:box2d_draw()
 
-  for i = 1, numballs do
-    objects.ball[i]:draw()
-  end
-
---  for k, v in pairs(mapobjects) do
---    if v.draw ~= nil then
---      v:draw()
---    end
---  end
-
+for k,v in utils.spairs(objects.ball, function(o,a,b) return o[b].body:getY() > o[a].body:getY() end) do
+    v:draw()
+end
 
 end
