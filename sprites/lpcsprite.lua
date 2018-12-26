@@ -48,10 +48,21 @@ animations.walk = {
 animations.walk.quads = calculateQuads(animations.walk)
 
 --
+-- SLASH
+--
+animations.slash = {
+  cycles = 1,
+  frames = 5,
+  batchoffsetx = 1,
+  batchoffsety = 4 * 3
+}
+animations.slash.quads = calculateQuads(animations.slash)
+
+--
 -- @param animname string name of animation, one of 
 --        - stand
 --        - walk
---
+--        - slash
 --
 function lpcsprite.getQuad(animname, dir, time)
   time = time or 0

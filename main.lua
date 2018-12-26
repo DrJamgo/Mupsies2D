@@ -33,7 +33,7 @@ function love.load()
   objects.ball = {}
 
   for i = 1, numballs do
-    objects.ball[i] = GenericUnit.new(world, spawn)
+    objects.ball[i] = GenericUnit(world, spawn)
   end
  
   --initial graphics setup
@@ -68,6 +68,7 @@ function love.update(dt)
   	objects.ball[i]:update(dt)
   end
 
+  map:update(dt)
   world:update(dt) --this puts the world into motion
 end
 
@@ -82,7 +83,7 @@ function love.draw()
   love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 
 	map:draw(0,0,2.0,2.0)
-  map:box2d_draw()
+  --map:box2d_draw()
 
 for k,v in utils.spairs(objects.ball, function(o,a,b) return o[b].body:getY() > o[a].body:getY() end) do
     v:draw()

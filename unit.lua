@@ -4,6 +4,11 @@ local lpcsprite = require('sprites/lpcsprite')
 
 GenericUnit = {}
 GenericUnit.__index = GenericUnit
+setmetatable(GenericUnit, {
+  __call = function (cls, ...)
+    return cls.new(...)
+  end,
+})
 
 GenericUnit.image = love.graphics.newImage("sprites/mupsie.png")
 GenericUnit.image_center = {32,48}
@@ -51,8 +56,6 @@ function GenericUnit.update(self, dt)
     
     self.anim = 'walk'
   end
-
-  
 
   velox, veloy = self.body:getLinearVelocity()
   veloabs = math.max(math.abs(velox),math.abs(veloy))
