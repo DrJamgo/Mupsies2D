@@ -29,13 +29,15 @@ function Behaviour.update(self, dt, layer)
     diffx, diffy = unpack(self.body.targets.move)
     diffx = diffx - self.body.body:getX()
     diffy = diffy - self.body.body:getY()
-    
-    intention.move = {
-      dx = diffx,
-      dy = diffy,
-      dir = math.atan2(diffy, diffx),
-      dist = math.sqrt(diffx*diffx + diffy*diffy)
-    }
+    local dist = math.sqrt(diffx*diffx + diffy*diffy)
+    if dist > self.body.size / 2 then
+      intention.move = {
+        dx = diffx,
+        dy = diffy,
+        dir = math.atan2(diffy, diffx),
+        dist = dist
+      }
+    end
   end
   
     --update attack stuff

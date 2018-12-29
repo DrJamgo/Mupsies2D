@@ -29,19 +29,22 @@ function Appearance.new(body, spritesheet)
 end
 
 function Appearance:update(dt)  
-  -- todo walk animation
- 
+
   local slash = self.body.slash:getProgress()
+  local speed = 0
+  if self.body.move then
+    speed = self.body.move:getSpeed()
+  end
  
   if slash > 0 then
-    self.slash = slash
     self.anim = "slash"
-  elseif math.abs(self.body.state.speed) > 5 then
+    self.slash = slash
+  elseif math.abs(speed) > 5 then
     self.anim = "walk"
-    self.walk = self.walk + dt * (self.body.state.speed / 16) * 2
+    self.walk = self.walk + dt * (speed / 16) * 2
   else
-    self.walk = 0.0
     self.anim = "stand"
+    self.walk = 0.0
   end
 end
 
@@ -51,9 +54,9 @@ function Appearance:draw()
   local transform = love.math.newTransform(self.body.body:getX(), self.body.body:getY(), 0, s, s, unpack(self.sprite_center))
   local quad
   if self.anim == 'walk' then
-    quad = lpcsprite.getQuad(self.anim, self.body.state.face, self.walk)
+    quad = lpcsprite.getQuad(self.anim, self.body.body:getAngle(), self.walk)
   else
-    quad = lpcsprite.getQuad(self.anim, self.body.state.face, self.slash)
+    quad = lpcsprite.getQuad(self.anim, self.body.body:getAngle(), self.slash)
   end
   love.graphics.draw(self.sprite, quad, transform)
 end
