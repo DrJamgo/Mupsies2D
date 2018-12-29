@@ -44,5 +44,6 @@ function GenericUnit.update(self, dt, layer)
 end
 
 function GenericUnit.draw(self)
-  self.appearance:draw()
+  self.body:draw()
+  --self.appearance:draw()
 end

@@ -48,13 +48,14 @@ function Appearance:update(dt)
 end
 
 function Appearance:draw()
-    local s = self.body.shape:getRadius() / 16
-    local transform = love.math.newTransform(self.body.body:getX(), self.body.body:getY(), 0, s, s, unpack(self.sprite_center))
-    local quad
-    if self.anim == 'walk' then
-      quad = lpcsprite.getQuad(self.anim, self.body.state.face, self.walk)
-    else
-      quad = lpcsprite.getQuad(self.anim, self.body.state.face, self.slash)
-    end
-    love.graphics.draw(self.sprite, quad, transform)
+  love.graphics.setColor(1, 1, 1)
+  local s = self.body.shape:getRadius() / 16
+  local transform = love.math.newTransform(self.body.body:getX(), self.body.body:getY(), 0, s, s, unpack(self.sprite_center))
+  local quad
+  if self.anim == 'walk' then
+    quad = lpcsprite.getQuad(self.anim, self.body.state.face, self.walk)
+  else
+    quad = lpcsprite.getQuad(self.anim, self.body.state.face, self.slash)
+  end
+  love.graphics.draw(self.sprite, quad, transform)
 end

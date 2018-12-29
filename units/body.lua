@@ -17,6 +17,7 @@ function Body.new(world, spawn)
   
   self.size = 24
   self.strength = 5
+  self.reach = 16
 
   self.body = love.physics.newBody(world, spawn.x + math.random(5), spawn.y + math.random(5), "dynamic")
   self.shape = love.physics.newCircleShape(self.size / 2)
@@ -87,4 +88,21 @@ function Body:update(dt, intention)
   
 end
 
+function Body:draw()
+  
+  love.graphics.setColor(1, 1, 1)
+  -- draw debug stuff
+  -- body dimensions
+  love.graphics.setLineWidth(0.5)
+  love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size / 2)
+  -- draw face direction
+  love.graphics.line(self.body:getX(), self.body:getY(),
+    self.body:getX() + math.cos(self.state.face) * self.size/2,
+    self.body:getY() + math.sin(self.state.face) * self.size/2)
+  -- draw attack reach
+  love.graphics.setColor(1, 0, 0)
+  love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size / 2 + self.reach)
+  
 
+  
+end
