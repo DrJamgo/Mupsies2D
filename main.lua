@@ -35,7 +35,7 @@ function love.load()
   
   layer.units = {}
 
-  for i = 1, 1 do
+  for i = 1, 3 do
     layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
   end
   
@@ -43,7 +43,7 @@ function love.load()
  
   -- Draw units layer
 	layer.draw = function(self)
-    for k,v in utils.spairs(self.units, function(o,a,b) return o[b].body:getY() > o[a].body:getY() end) do
+    for k,v in utils.spairs(self.units, function(o,a,b) return o[b].body.body:getY() > o[a].body.body:getY() end) do
       v:draw()
     end
 	end
@@ -97,6 +97,6 @@ function love.draw()
   love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 
 	map:draw(0,0,2.0,2.0)
-  --map:box2d_draw()
+  map:box2d_draw()
 
 end

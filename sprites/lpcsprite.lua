@@ -65,7 +65,7 @@ animations.slash.quads = calculateQuads(animations.slash)
 --
 function lpcsprite.getQuad(animname, dir, time)
   time = time or 0
-  if animations[animname].quads then
+  if animations[animname] and animations[animname].quads then
     local dirindex = 1 + math.floor(((dir or 0) / math.pi * 2 + 0.5) % 4)
     local animindex
     if animations[animname].cycles ~= nil then
