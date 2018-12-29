@@ -30,13 +30,11 @@ end
 
 function Appearance:update(dt)  
   -- todo walk animation
-  
-  if self.body.cooldowns.slash <= 0 then
-    self.slash = 0
-  end
  
-  if self.body.cooldowns.slash > 0 and self.slash <= 1.0 then
-    self.slash = (self.slash or 0) + dt * 4
+  local slash = self.body.slash:getProgress()
+ 
+  if slash > 0 then
+    self.slash = slash
     self.anim = "slash"
   elseif math.abs(self.body.state.speed) > 5 then
     self.anim = "walk"

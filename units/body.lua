@@ -4,6 +4,8 @@
 -- Defines physical mainifistation and capabilities of an unit
 --
 
+require "units/ability"
+
 Body = {}
 Body.__index = Body
 setmetatable(Body, {
@@ -29,13 +31,8 @@ function Body.new(world, spawn)
     speed = 0.0, -- current speed in facing direction
   }
   
-  self.cooldowns = {
-    move = 0.0,
-    slash = 0.0
-  }
-  
-  self.movefequency = 10.0
-  self.slashfrequency = 0.5
+  self.move = Ability(0.1, 0, 0)
+  self.slash = Ability(2.0, 0.5, 0.4)
   
   self.targets = {
     move = nil,
@@ -47,24 +44,27 @@ end
 
 function Body:update(dt, intention)
   
+  self.move:update(dt)
+  local slash = self.slash:update(dt)
+  
+  if slash then
+    self.slash.target.body.body:applyLinearImpulse(math.cos(self.slash.dir) * 10, math.sin(self.slash.dir) * 10)
+  end
+  
   if intention then
     if intention.slash then
-      if self.cooldowns.slash <= 0 then
-        intention.slash.unit.body.body:applyLinearImpulse(math.cos(intention.slash.dir) * 10, math.sin(intention.slash.dir) * 10)
-        self.cooldowns.slash = self.cooldowns.slash + (1 / self.slashfrequency)
+      if self.slash:activate() then
+        self.slash.target = intention.slash.unit
+        self.slash.dir = intention.slash.dir
       end
     end
     if intention.move then
-      if self.cooldowns.move <= 0 then
+      if self.move:activate() then
         self.state.face = intention.move.dir
-        
         force = math.min(1, intention.move.dist / self.size) * self.strength
         self.body:applyLinearImpulse(force * math.cos(intention.move.dir), force * math.sin(intention.move.dir))
-        self.cooldowns.move = self.cooldowns.move + (1 / self.movefequency)
       end
     end
-    
-
   end
   
   velox, veloy = self.body:getLinearVelocity()
@@ -79,12 +79,7 @@ function Body:update(dt, intention)
     forcey = math.min(self.strength * 20, math.max(-self.strength * 20, veloy * math.abs(veloy) * 0.1))
     self.body:applyForce(- (velox), - (veloy))
   end
-  
-  for k,v in pairs(self.cooldowns) do
-    if self.cooldowns[k] > 0 then
-      self.cooldowns[k] = self.cooldowns[k] - dt
-    end
-  end
+
   
 end
 
@@ -102,7 +97,5 @@ function Body:draw()
   -- draw attack reach
   love.graphics.setColor(1, 0, 0)
   love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size / 2 + self.reach)
-  
-
   
 end

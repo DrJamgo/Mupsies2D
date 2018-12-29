@@ -23,6 +23,9 @@ function GenericUnit.new(world, spawn, fraction)
   self.body = Body(world, spawn)
   self.behaviour = Behaviour(self.body, fraction)
   self.appearance = Appearance(self.body, "sprites/mupsie.png")
+  
+  self.hp = 100
+  self.hpmax = 100
 
   return self
 end
@@ -45,5 +48,5 @@ end
 
 function GenericUnit.draw(self)
   self.body:draw()
-  --self.appearance:draw()
+  self.appearance:draw()
 end

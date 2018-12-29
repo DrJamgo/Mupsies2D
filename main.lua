@@ -35,7 +35,7 @@ function love.load()
   
   layer.units = {}
 
-  for i = 1, 3 do
+  for i = 1, 1 do
     layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
   end
   

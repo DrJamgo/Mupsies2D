@@ -42,7 +42,7 @@ function Behaviour.update(self, dt, layer)
   for k,v in pairs(layer.units) do
     if v:getFraction() ~= self.fraction then
       distance, x1, y1, x2, y2 = love.physics.getDistance(self.body.fixture, v.body.fixture)
-      if distance < self.body.reach then
+      if distance < self.body.reach and self.body.slash:isReady() then
         intention.slash = {
           unit = v,
           dx = x2-x1,
