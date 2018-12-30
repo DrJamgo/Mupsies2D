@@ -153,7 +153,8 @@ function AbilityAttack:update(dt)
   local attack = Ability.update(self, dt)
 
   if attack then
-    self.target.body.body:applyLinearImpulse(math.cos(self.dir) * 1000, math.sin(self.dir) * 1000)
+    self.target.body.body:applyLinearImpulse(math.cos(self.dir) * self.damage, math.sin(self.dir) * self.damage)
+    self.target:hit(self.damage)
   end
   
   if self.intention then

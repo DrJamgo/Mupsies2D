@@ -9,6 +9,8 @@ local utils = require "utils"
 --currentmap = require('maps/map0')
 displayTransform = love.math.newTransform()
 
+local wx,wy
+
 function love.load()
   
   love.physics.setMeter(32) --the height of a meter our worlds will be 64px
@@ -35,16 +37,31 @@ function love.load()
   
   layer.units = {}
 
-  for i = 1, 1 do
+  for i = 1, 3 do
     layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
   end
   
-  layer.units[#layer.units+1] = GenericUnit(world, enemy, 'enemy')
+  for i = 1, 2 do
+    layer.units[#layer.units+1] = GenericUnit(world, enemy, 'enemy')
+  end
  
   -- Draw units layer
 	layer.draw = function(self)
-    for k,v in utils.spairs(self.units, function(o,a,b) return o[b].body.body:getY() > o[a].body.body:getY() end) do
-      v:draw()
+    
+    for k,v in pairs(self.units) do
+      if v:isAlive() == false then
+        v:draw()
+      end
+    end
+    
+    
+    for k,v in utils.spairs(self.units,
+      function(o,a,b)
+        return o[b].body.body:getY() > o[a].body.body:getY()
+      end) do
+      if v:isAlive() == true then
+        v:draw()
+      end
     end
 	end
   
@@ -58,7 +75,9 @@ function love.load()
           v:setTarget(nil)
         end
       end
+      
       v:update(dt, layer)
+      
     end
 	end
  
@@ -97,6 +116,6 @@ function love.draw()
   love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 
 	map:draw(0,0,2.0,2.0)
-  map:box2d_draw()
+  --map:box2d_draw()
 
 end

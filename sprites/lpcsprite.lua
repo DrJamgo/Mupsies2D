@@ -58,6 +58,18 @@ animations.slash = {
 animations.slash.quads = calculateQuads(animations.slash)
 
 --
+-- PRONE
+--
+animations.prone = {
+  frames  = 6,
+  batchoffsetx = 0,
+  batchoffsety = 4 * 5
+}
+animations.prone.quads = calculateQuads(animations.prone)
+
+
+
+--
 -- @param animname string name of animation, one of 
 --        - stand
 --        - walk

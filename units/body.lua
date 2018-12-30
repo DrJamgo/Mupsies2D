@@ -29,7 +29,7 @@ function Body.new(world, spawn)
   
   self.body:setMass(50)
   
-  self.melee = AbilityAttack(self.body, 2.0, 0.5, 0.25, 100, self.size / 2 + 8)
+  self.melee = AbilityAttack(self.body, 0.8, 0.4, 0.20, 10, self.size / 2 + 8)
   self.move = AbilityMove(self.body, 0.2, self.strength)
 
   self.targets = {

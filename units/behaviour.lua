@@ -42,7 +42,7 @@ function Behaviour.update(self, dt, layer)
   
     --update attack stuff
   for k,v in pairs(layer.units) do
-    if v:getFraction() ~= self.fraction then
+    if v:getFraction() ~= self.fraction and v:isAlive() then
       distance, x1, y1, x2, y2 = love.physics.getDistance(self.body.fixture, v.body.fixture)
       --print("distance=" .. distance .. ", reach=" .. self.body.slash.reach)
       if distance < self.body.melee.reach then

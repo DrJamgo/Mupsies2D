@@ -22,7 +22,7 @@ function GenericUnit.new(world, spawn, fraction)
 
   self.body = Body(world, spawn)
   self.behaviour = Behaviour(self.body, fraction)
-  self.appearance = Appearance(self.body, "sprites/mupsie.png")
+  self.appearance = Appearance(self, self.body, "sprites/mupsie.png")
   
   self.hp = 100
   self.hpmax = 100
@@ -40,13 +40,29 @@ end
 
 function GenericUnit.update(self, dt, layer)
 
-  local intention = self.behaviour:update(dt, layer)
-  self.body:update(dt, intention)
+  if self.hp > 0 then
+    local intention = self.behaviour:update(dt, layer)
+    self.body:update(dt, intention)
+  elseif self.body.fixture then
+    self.body.fixture:destroy()
+    self.body.fixture = nil
+    self.body.body:setType("static")
+    self.body.body:setAngle(-math.pi / 2)
+  end
+  
   self.appearance:update(dt)
   
 end
 
 function GenericUnit.draw(self)
-  self.body:draw()
+  --self.body:draw()
   self.appearance:draw()
+end
+
+function GenericUnit:hit(damage)
+  self.hp = self.hp - damage
+end
+
+function GenericUnit:isAlive()
+  return self.hp > 0
 end
