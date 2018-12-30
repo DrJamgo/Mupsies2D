@@ -28,9 +28,9 @@ function Appearance.new(body, spritesheet)
   return self
 end
 
-function Appearance:update(dt)  
+function Appearance:update(dt)
 
-  local slash = self.body.slash:getProgress()
+  local slash = self.body.melee:getProgress()
   local speed = 0
   if self.body.move then
     speed = self.body.move:getSpeed()

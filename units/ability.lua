@@ -61,6 +61,10 @@ function Ability:getProgress()
 end
 
 
+--
+-------------------------------------------------------------------------------
+--
+
 AbilityMove = {}
 AbilityMove.__index = AbilityMove
 
@@ -78,7 +82,7 @@ function AbilityMove:_init(body, cooldown, force)
   self.force = force
   self.speed = 0
   
-  Ability:_init(cooldown)
+  Ability._init(self, cooldown)
 end
 
 function AbilityMove:update(dt)
@@ -92,7 +96,7 @@ function AbilityMove:update(dt)
   
   -- update states and variables
   self.speed = velox * math.cos(self.body:getAngle()) + veloy * math.sin(self.body:getAngle())
-  
+
   -- apply move force if 'ready' and intent to move exists
   local intention = self.intention or {dir = 0, dist = 0}
   if self.intention then
@@ -119,4 +123,47 @@ end
 
 function AbilityMove:getSpeed()
   return self.speed
+end
+
+--
+-------------------------------------------------------------------------------
+--
+
+AbilityAttack = {}
+AbilityAttack.__index = AbilityAttack
+
+setmetatable(AbilityAttack, {
+  __index = Ability, -- this is what makes the inheritance work
+  __call = function (cls, ...)
+    local self = setmetatable({}, cls)
+    self:_init(...)
+    return self
+  end,
+})
+
+function AbilityAttack:_init(body, cooldown, duration, trigger, damage, reach)
+  self.body = body
+  self.damage = damage or 1
+  self.reach = reach or 0
+  
+  Ability._init(self, cooldown, duration, trigger)
+end
+
+function AbilityAttack:update(dt)
+  local attack = Ability.update(self, dt)
+
+  if attack then
+    self.target.body.body:applyLinearImpulse(math.cos(self.dir) * 1000, math.sin(self.dir) * 1000)
+  end
+  
+  if self.intention then
+    if self:activate() then
+      self.target = self.intention.unit
+      self.dir = self.intention.dir
+    end
+  end
+end
+
+function AbilityAttack:setIntention(intention)
+  self.intention = intention
 end

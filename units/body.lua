@@ -29,12 +29,7 @@ function Body.new(world, spawn)
   
   self.body:setMass(50)
   
-  -- body state variables
-  self.state = {
-    speed = 0.0, -- current speed in facing direction
-  }
-  
-  self.slash = Ability(2.0, 0.5, 0.4)
+  self.melee = AbilityAttack(self.body, 2.0, 0.5, 0.25, 100, self.size / 2 + 8)
   self.move = AbilityMove(self.body, 0.2, self.strength)
 
   self.targets = {
@@ -46,23 +41,10 @@ function Body.new(world, spawn)
 end
 
 function Body:update(dt, intention)
-
   self.move:setIntention(intention.move)
   self.move:update(dt)
-  local slash = self.slash:update(dt)
-  
-  if slash then
-    self.slash.target.body.body:applyLinearImpulse(math.cos(self.slash.dir) * 10, math.sin(self.slash.dir) * 10)
-  end
-  
-  if intention then
-    if intention.slash then
-      if self.slash:activate() then
-        self.slash.target = intention.slash.unit
-        self.slash.dir = intention.slash.dir
-      end
-    end
-  end
+  self.melee:setIntention(intention.melee)
+  self.melee:update(dt)
 end
 
 function Body:draw()
@@ -78,6 +60,6 @@ function Body:draw()
     self.body:getY() + math.sin(self.body:getAngle()) * self.size/2)
   -- draw attack reach
   love.graphics.setColor(1, 0, 0)
-  love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size / 2 + self.reach)
+  love.graphics.circle("line", self.body:getX(), self.body:getY(), self.size / 2 + self.melee.reach)
   
 end
