@@ -133,14 +133,21 @@ end
 
 function love.draw()
   
+  local s = 2.0
+  local dx = (love.graphics.getWidth() / 2) / 2 - player.body.body:getX()
+  local dy = (love.graphics.getHeight() / 2) / 2 - player.body.body:getY()
+  
+  
   love.graphics.setColor(255, 255, 255)
   displayTransform = love.math.newTransform()
-  displayTransform:scale(2.0)
+  displayTransform:translate(dx, dy)
+  displayTransform:scale(s)
   love.graphics.replaceTransform(displayTransform)
   
-  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-
-	map:draw(0,0,2.0,2.0)
+	map:draw(dx,dy,s,s)
   --map:box2d_draw()
+
+  love.graphics.replaceTransform(love.math.newTransform())
+  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
 
 end
