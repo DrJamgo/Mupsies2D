@@ -18,7 +18,7 @@ function Body.new(world, spawn)
   local self = setmetatable({}, Body)
   
   self.size = 24
-  self.strength = 400
+  self.strength = 1000
   self.reach = 16
 
   self.body = love.physics.newBody(world, spawn.x + math.random(5), spawn.y + math.random(5), "dynamic")

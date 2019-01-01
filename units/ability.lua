@@ -90,8 +90,8 @@ function AbilityMove:update(dt)
   
     -- calculate counter-forces
   local velox, veloy = self.body:getLinearVelocity()
-  local forcex = -velox * self.body:getMass() / 2
-  local forcey = -veloy * self.body:getMass() / 2
+  local forcex = -velox * self.body:getMass() * 2
+  local forcey = -veloy * self.body:getMass() * 2
   self.body:applyForce((forcex), (forcey))
   
   -- update states and variables
@@ -102,7 +102,7 @@ function AbilityMove:update(dt)
   if self.intention then
     self.body:setAngle(intention.dir)
   elseif math.abs(self.speed) > 1 then
-    intention = {dir = math.atan2(-veloy, -velox), dist = math.abs(self.speed) * 4}
+    intention = {dir = math.atan2(-veloy, -velox), dist = math.abs(self.speed)}
   end
   
   if intention ~= nil then
