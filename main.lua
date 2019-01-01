@@ -140,8 +140,9 @@ function love.draw()
   
   love.graphics.setColor(255, 255, 255)
   displayTransform = love.math.newTransform()
-  displayTransform:translate(dx, dy)
   displayTransform:scale(s)
+  displayTransform:translate(dx, dy)
+
   love.graphics.replaceTransform(displayTransform)
   
 	map:draw(dx,dy,s,s)
