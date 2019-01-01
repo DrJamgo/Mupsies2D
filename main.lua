@@ -1,6 +1,7 @@
 if arg[#arg] == "-debug" then require("mobdebug").start() end
 
 require 'unit'
+require 'units/player'
 require 'maps/maploader'
 -- love.filesystem.load("tiledloader.lua")()
 
@@ -10,6 +11,7 @@ local utils = require "utils"
 displayTransform = love.math.newTransform()
 
 local wx,wy
+local player
 
 function love.load()
   
@@ -36,6 +38,9 @@ function love.load()
 	local layer = map:addCustomLayer("units")
   
   layer.units = {}
+
+  player = Player(world, spawn)
+  layer.units[#layer.units+1] = player
 
   for i = 1, 3 do
     layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
@@ -67,6 +72,26 @@ function love.load()
   
   -- Update units layer
 	layer.update = function(self, dt)
+    
+    local w = love.keyboard.isDown( 'w' )
+    local a = love.keyboard.isDown( 'a' )
+    local s = love.keyboard.isDown( 's' )
+    local d = love.keyboard.isDown( 'd' )
+    
+    local moveX = 0
+    local moveY = 0
+    
+    if d then moveX = 1 end
+    if a then moveX = moveX - 1 end
+    if s then moveY = 1 end
+    if w then moveY = moveY - 1 end
+    
+    if a or s or d or w then
+      player.behaviour:setMovement(math.atan2(moveY, moveX))
+    else
+      player.behaviour:setMovement(nil)
+    end
+    
     for k,v in pairs(self.units) do
       if v:getFraction() == 'player' then
         if mybutton == 1 then

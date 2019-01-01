@@ -10,19 +10,21 @@ GenericUnit = {}
 GenericUnit.__index = GenericUnit
 setmetatable(GenericUnit, {
   __call = function (cls, ...)
-    return cls.new(...)
+    local self = setmetatable({}, cls)
+    self:_init(...)
+    return self
   end,
 })
 
 GenericUnit.image = love.graphics.newImage("sprites/mupsie.png")
 GenericUnit.image_center = {32,48}
 
-function GenericUnit.new(world, spawn, fraction)
-  local self = setmetatable({}, GenericUnit)
+function GenericUnit._init(self, world, spawn, fraction, sprite)
 
+  local spritesheet = sprite or "sprites/mupsie.png"
   self.body = Body(world, spawn)
   self.behaviour = Behaviour(self.body, fraction)
-  self.appearance = Appearance(self, self.body, "sprites/mupsie.png")
+  self.appearance = Appearance(self, self.body, spritesheet)
   
   self.hp = 100
   self.hpmax = 100
@@ -51,7 +53,6 @@ function GenericUnit.update(self, dt, layer)
   end
   
   self.appearance:update(dt)
-  
 end
 
 function GenericUnit.draw(self)
