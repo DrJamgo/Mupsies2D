@@ -6,6 +6,8 @@
 
 local lpcsprite = require('sprites/lpcsprite')
 
+local DAMAGETIME = 0.5
+
 Appearance = {}
 Appearance.__index = Appearance
 setmetatable(Appearance, {
@@ -25,6 +27,8 @@ function Appearance.new(unit, body, spritesheet)
   self.sprite_center = {32,48}
   self.anim = "stand"
   self.slash = 0
+  
+  self.damage = {}
   
   return self
 end
@@ -54,15 +58,41 @@ function Appearance:update(dt)
     self.walk = 0.0
     self.time = 0.0
   end
+  
+  for k,v in pairs(self.damage) do
+    if self.damage[k].time < DAMAGETIME then
+      self.damage[k].time = self.damage[k].time + dt
+    else
+      table.remove(self.damage, k)
+    end
+  end
+  
 end
 
 function Appearance:draw()
-  love.graphics.setColor(1, 1, 1)
+  if self.ishit then
+    love.graphics.setColor(1, 0.5, 0.5)
+    self.ishit = false
+  else
+    love.graphics.setColor(1, 1, 1)
+  end
   local s = self.body.shape:getRadius() / 16
   local transform = love.math.newTransform(self.body.body:getX(), self.body.body:getY(), 0, s, s, unpack(self.sprite_center))
   local quad
   quad = lpcsprite.getQuad(self.anim, self.body.body:getAngle(), self.time)
   love.graphics.draw(self.sprite, quad, transform)
   --love.graphics.print(math.ceil(self.unit.hp),self.body.body:getX(), self.body.body:getY()-32, 0, 0.5, 0.5)
+  
+  love.graphics.setColor(1, 1, 1)
+  for k,v in pairs(self.damage) do
+    love.graphics.print(
+      v.damage, self.body.body:getX(),
+      self.body.body:getY() -32 - (v.time / DAMAGETIME) * 16, 0,
+      (DAMAGETIME - v.time) / DAMAGETIME)
+  end
+end
 
+function Appearance:hit(damage)
+  self.ishit = true
+  table.insert(self.damage, {damage=damage, time=0})
 end

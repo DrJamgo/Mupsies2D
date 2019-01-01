@@ -62,6 +62,7 @@ end
 
 function GenericUnit:hit(damage)
   self.hp = self.hp - damage
+  self.appearance:hit(damage)
 end
 
 function GenericUnit:isAlive()
