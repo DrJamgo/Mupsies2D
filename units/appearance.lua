@@ -6,7 +6,7 @@
 
 local lpcsprite = require('sprites/lpcsprite')
 
-local DAMAGETIME = 0.5
+local DAMAGETIME = 0.8
 
 Appearance = {}
 Appearance.__index = Appearance
@@ -77,7 +77,12 @@ function Appearance:draw()
     love.graphics.setColor(1, 1, 1)
   end
   local s = self.body.shape:getRadius() / 16
-  local transform = love.math.newTransform(self.body.body:getX(), self.body.body:getY(), 0, s, s, unpack(self.sprite_center))
+  local width = self.body.shape:getRadius() * 2
+  local x,y = self.body.body:getX(), self.body.body:getY()
+  local headoffset = -self.body.shape:getRadius() * 3.0
+  
+  local transform = love.math.newTransform(x, y, 0, s, s, unpack(self.sprite_center))
+  
   local quad
   quad = lpcsprite.getQuad(self.anim, self.body.body:getAngle(), self.time)
   love.graphics.draw(self.sprite, quad, transform)
@@ -85,11 +90,23 @@ function Appearance:draw()
   
   love.graphics.setColor(1, 1, 1)
   for k,v in pairs(self.damage) do
-    love.graphics.print(
-      v.damage, self.body.body:getX(),
-      self.body.body:getY() -32 - (v.time / DAMAGETIME) * 16, 0,
+    love.graphics.print(v.damage,
+      x,
+      y + headoffset - (v.time / DAMAGETIME) * 16, 0,
       (DAMAGETIME - v.time) / DAMAGETIME)
   end
+  
+  local life = self.unit.hp / self.unit.hpmax
+  if life < 0.25 then
+    love.graphics.setColor(1, 0, 0, 0.5)
+  elseif life < 0.5 then
+    love.graphics.setColor(1, 1, 0, 0.5)
+  else
+    love.graphics.setColor(0, 1, 0, 0.5)
+  end
+  
+  love.graphics.rectangle("fill", x - (width / 4) * life, y + headoffset, (width / 2) * life, 4)
+  
 end
 
 function Appearance:hit(damage)
