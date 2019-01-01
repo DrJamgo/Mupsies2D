@@ -13,6 +13,8 @@ displayTransform = love.math.newTransform()
 local wx,wy
 local player
 
+mybutton = 2
+
 function love.load()
   
   love.physics.setMeter(32) --the height of a meter our worlds will be 64px
@@ -97,7 +99,7 @@ function love.load()
         if mybutton == 1 then
           v:setTarget({wx,wy})
         elseif mybutton == 2 then
-          v:setTarget(nil)
+          v:setTarget({player.body.body:getX(), player.body.body:getY()})
         end
       end
       
