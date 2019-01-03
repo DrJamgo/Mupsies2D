@@ -14,23 +14,29 @@ setmetatable(Body, {
   end,
 })
 
-function Body.new(world, spawn)
+function Body.new(world, spawn, bodyparams)
   local self = setmetatable({}, Body)
   
-  self.size = 24
-  self.strength = 1000
-  self.reach = 16
+  self.size = bodyparams.size
+  self.strength = bodyparams.strength
 
+  -- init box2d objects
   self.body = love.physics.newBody(world, spawn.x + math.random(5), spawn.y + math.random(5), "dynamic")
   self.body:setFixedRotation(true)
-
   self.shape = love.physics.newCircleShape(self.size / 2)
   self.fixture = love.physics.newFixture(self.body, self.shape)
+  self.body:setMass(bodyparams.mass)
   
-  self.body:setMass(50)
+  -- init abilities
+  if bodyparams.melee then
+    local params = bodyparams.melee
+    self.melee = AbilityAttack(
+      self.body, params.cooldown, params.duration, params.trigger, params.damage, params.reach)
+  end
   
-  self.melee = AbilityAttack(self.body, 0.8, 0.4, 0.20, 10, self.size / 2 + 8)
-  self.move = AbilityMove(self.body, 0.2, self.strength)
+  if bodyparams.move then
+    self.move = AbilityMove(self.body, bodyparams.move.cooldown, bodyparams.move.force)
+  end
 
   self.targets = {
     move = nil,

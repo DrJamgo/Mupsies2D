@@ -2,12 +2,10 @@ if arg[#arg] == "-debug" then require("mobdebug").start() end
 
 require 'unit'
 require 'units/player'
-require 'maps/maploader'
--- love.filesystem.load("tiledloader.lua")()
 
 local sti = require "sti"
 local utils = require "utils"
---currentmap = require('maps/map0')
+
 displayTransform = love.math.newTransform()
 
 local wx,wy
@@ -109,7 +107,7 @@ function love.load()
 	end
  
   --initial graphics setup
-  love.graphics.setBackgroundColor(0.41, 0.53, 0.97) --set the background color to a nice blue
+  love.graphics.setBackgroundColor(0.0, 0.0, 0.0) --set the background color to a nice blue
   love.window.setMode(640, 640) --set the window dimensions to 650 by 650 with no fullscreen, vsync on, and no antialiasing
 end
 

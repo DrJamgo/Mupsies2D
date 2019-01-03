@@ -16,14 +16,12 @@ setmetatable(Appearance, {
   end,
 })
 
-function Appearance.new(unit, body, spritesheet)
+function Appearance.new(unit, body, params)
   local self = setmetatable({}, Appearance)
-  
-  spritesheet = spritesheet or "sprites/mupsie.png"
   
   self.body = body
   self.unit = unit
-  self.sprite = love.graphics.newImage(spritesheet)
+  self.sprite = love.graphics.newImage(params.sprite)
   self.sprite_center = {32,48}
   self.anim = "stand"
   self.slash = 0

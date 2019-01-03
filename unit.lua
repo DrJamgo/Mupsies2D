@@ -1,5 +1,6 @@
 require 'love'
 require 'love.physics'
+local utils = require('utils')
 local lpcsprite = require('sprites/lpcsprite')
 
 require('units/behaviour')
@@ -16,18 +17,44 @@ setmetatable(GenericUnit, {
   end,
 })
 
-GenericUnit.image = love.graphics.newImage("sprites/mupsie.png")
-GenericUnit.image_center = {32,48}
+mupsie = {
+    hpmax = 100,
+    
+    body = {
+      size = 24,
+      strength = 1000,
+      mass = 50,
+      melee = {
+        cooldown = 1.0,
+        duration = 0.5,
+        trigger  = 0.3,
+        damage   = 10,
+        reach    = 32
+      },
+      move = {
+        cooldown = 0.2,
+        force = 1000
+      }
+    },
+    behaviour = {
+      fraction = "enemy"
+    },
+    appearance = {
+      sprite = "sprites/mupsie.png"
+    }
+  }
 
-function GenericUnit._init(self, world, spawn, fraction, sprite)
+function GenericUnit._init(self, world, spawn, fraction, unit)
 
-  local spritesheet = sprite or "sprites/mupsie.png"
-  self.body = Body(world, spawn)
+  local default = utils.deepcopy(mupsie)
+  local params = utils.merge(default, unit or {})
+
+  self.body = Body(world, spawn, params.body)
   self.behaviour = Behaviour(self.body, fraction)
-  self.appearance = Appearance(self, self.body, spritesheet)
+  self.appearance = Appearance(self, self.body, params.appearance)
   
-  self.hp = 100
-  self.hpmax = 100
+  self.hp = params.hpmax
+  self.hpmax = params.hpmax
 
   return self
 end

@@ -13,7 +13,14 @@ setmetatable(Player, {
 })
 
 function Player._init(self, world, spawn)
-  GenericUnit._init(self, world, spawn, "player", "sprites/mupsine.png")
+  local player = {
+    appearance = {
+      sprite = "sprites/mupsine.png"
+    }
+  }
+  
+  GenericUnit._init(self, world, spawn, "player", player)
+  
   self.behaviour.fraction = "player"
   self.behaviour.update = 
     function(self, dt, layer)

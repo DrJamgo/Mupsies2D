@@ -33,4 +33,37 @@ function utils.spairs(t, order)
     end
 end
 
+-- from https://stackoverflow.com/questions/1283388/lua-merge-tables
+--
+-- megres two tables into each other and returns result
+
+function utils.merge(t1, t2)
+    for k, v in pairs(t2) do
+        if (type(v) == "table") and (type(t1[k] or false) == "table") then
+            utils.merge(t1[k], t2[k])
+        else
+            t1[k] = v
+        end
+    end
+    return t1
+end
+
+-- from http://lua-users.org/wiki/CopyTable
+
+function utils.deepcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[utils.deepcopy(orig_key)] = utils.deepcopy(orig_value)
+        end
+        setmetatable(copy, utils.deepcopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end
+
+
 return utils
