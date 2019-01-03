@@ -17,7 +17,8 @@ setmetatable(GenericUnit, {
   end,
 })
 
-mupsie = {
+unitindex = {
+  mupsie = {
     hpmax = 100,
     
     body = {
@@ -36,17 +37,40 @@ mupsie = {
         force = 1000
       }
     },
-    behaviour = {
-      fraction = "enemy"
+    appearance = {
+      sprite = "mupsie"
+    }
+  },
+  spider = {
+    hpmax = 100,
+    
+    body = {
+      size = 16,
+      strength = 1000,
+      mass = 20,
+      melee = {
+        cooldown = 1.0,
+        duration = 0.5,
+        trigger  = 0.3,
+        damage   = 10,
+        reach    = 16
+      },
+      move = {
+        cooldown = 0.1,
+        force = 1000
+      }
     },
     appearance = {
-      sprite = "sprites/mupsie.png"
+      sprite = "spider"
     }
   }
+}
+
+local default = unitindex.mupsie
 
 function GenericUnit._init(self, world, spawn, fraction, unit)
 
-  local default = utils.deepcopy(mupsie)
+  local default = utils.deepcopy(default)
   local params = utils.merge(default, unit or {})
 
   self.body = Body(world, spawn, params.body)
@@ -76,7 +100,6 @@ function GenericUnit.update(self, dt, layer)
     self.body.fixture:destroy()
     self.body.fixture = nil
     self.body.body:setType("static")
-    self.body.body:setAngle(-math.pi / 2)
   end
   
   self.appearance:update(dt)

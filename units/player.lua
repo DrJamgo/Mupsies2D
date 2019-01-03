@@ -15,7 +15,7 @@ setmetatable(Player, {
 function Player._init(self, world, spawn)
   local player = {
     appearance = {
-      sprite = "sprites/mupsine.png"
+      sprite = "mupsine"
     }
   }
   

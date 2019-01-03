@@ -21,33 +21,32 @@ function love.load()
   -- load map and initialize box2d objects
   map = sti("maps/map0.lua", { "box2d" })
   map:box2d_init(world)
-
-  -- find Spawn objetct in map
-  local spawn = {x=0,y=0}
-  local enemy = {x=200,y=200}
-  for k, o in pairs(map.objects) do
-    if o.name == "spawn" then
-      spawn = {x=o.x,y=o.y}
-    end
-    if o.name == "enemy" then
-      enemy = {x=o.x,y=o.y}
-    end
-  end
   
   -- Create new dynamic data layer called "Sprites" as the 8th layer
 	local layer = map:addCustomLayer("units")
   
   layer.units = {}
+  
+    -- find Spawn objetct in map
+  local spawn = {x=0,y=0}
+  for k, o in pairs(map.objects) do
+    if o.name == "player" and o.type == "spawn" then
+      spawn = {x=o.x,y=o.y}
+    elseif o.type == "spawn" then
+      local count = o.properties.count or 1
+      local unit = unitindex[o.properties.unit] or unitindex.spider
+      for i = 1, count do
+        layer.units[#layer.units+1] = GenericUnit(world, {x=o.x, y=o.y}, o.name, unit)
+      end
+      
+    end
+  end
 
   player = Player(world, spawn)
   layer.units[#layer.units+1] = player
 
   for i = 1, 3 do
     layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
-  end
-  
-  for i = 1, 2 do
-    layer.units[#layer.units+1] = GenericUnit(world, enemy, 'enemy')
   end
  
   -- Draw units layer

@@ -260,8 +260,8 @@ return {
         },
         {
           id = 16,
-          name = "spawn",
-          type = "",
+          name = "player",
+          type = "spawn",
           shape = "rectangle",
           x = 227.333,
           y = 396.833,
@@ -274,15 +274,18 @@ return {
         {
           id = 17,
           name = "enemy",
-          type = "",
+          type = "spawn",
           shape = "rectangle",
-          x = 351.167,
-          y = 214,
-          width = 0,
-          height = 0,
+          x = 384.167,
+          y = 240.5,
+          width = 79,
+          height = 79,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["count"] = "3",
+            ["unit"] = "spider"
+          }
         },
         {
           id = 18,

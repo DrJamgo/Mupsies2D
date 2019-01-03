@@ -21,8 +21,7 @@ function Appearance.new(unit, body, params)
   
   self.body = body
   self.unit = unit
-  self.sprite = love.graphics.newImage(params.sprite)
-  self.sprite_center = {32,48}
+  self.sprite = lpcsprite.getSprite(params.sprite)
   self.anim = "stand"
   self.slash = 0
   
@@ -79,11 +78,8 @@ function Appearance:draw()
   local x,y = self.body.body:getX(), self.body.body:getY()
   local headoffset = -self.body.shape:getRadius() * 3.0
   
-  local transform = love.math.newTransform(x, y, 0, s, s, unpack(self.sprite_center))
+  self.sprite.draw(self.sprite, self.anim, self.body.body:getAngle(), self.time, x, y, s)
   
-  local quad
-  quad = lpcsprite.getQuad(self.anim, self.body.body:getAngle(), self.time)
-  love.graphics.draw(self.sprite, quad, transform)
   --love.graphics.print(math.ceil(self.unit.hp),self.body.body:getX(), self.body.body:getY()-32, 0, 0.5, 0.5)
   
   love.graphics.setColor(1, 1, 1)
@@ -96,9 +92,9 @@ function Appearance:draw()
   
   local life = self.unit.hp / self.unit.hpmax
   if life < 0.25 then
-    love.graphics.setColor(1, 0, 0, 0.5)
+    love.graphics.setColor(1, 0, 0, 0.8)
   elseif life < 0.5 then
-    love.graphics.setColor(1, 1, 0, 0.5)
+    love.graphics.setColor(1, 1, 0, 0.7)
   else
     love.graphics.setColor(0, 1, 0, 0.5)
   end
