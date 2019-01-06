@@ -89,7 +89,9 @@ function Appearance:draw()
       y + headoffset - (v.time / DAMAGETIME) * 16, 0,
       (DAMAGETIME - v.time) / DAMAGETIME)
   end
-  
+    --[[
+    
+  CAUSES MASSIVE PERFORMANCE ISSUES
   local life = self.unit.hp / self.unit.hpmax
   if life < 0.25 then
     love.graphics.setColor(1, 0, 0, 0.8)
@@ -100,7 +102,8 @@ function Appearance:draw()
   end
   
   love.graphics.rectangle("fill", x - (width / 4) * life, y + headoffset, (width / 2) * life, 4)
-  
+
+  ]]--
 end
 
 function Appearance:hit(damage)

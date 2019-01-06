@@ -41,10 +41,11 @@ function Behaviour:_findClosestEnemy(unitlayer)
   local dx, dy
   for k,v in pairs(unitlayer.units) do
     if self:_isUnitEnemy(v) and v:isAlive() then
-      dist, dx, dy = distanceBetweenUnits(self, v)
+      dist, _dx, _dy = distanceBetweenUnits(self, v)
       if dist < self.sight and (not distance or dist < distance) then
         distance = dist
         enemy = v
+        dx, dy = _dx, _dy
       end
     end
   end
@@ -126,10 +127,24 @@ setmetatable(Aggressive, {
 
 function Aggressive:update(dt, unitlayer)
   local intention = {}
-  local enemy, dist, dx, dy = self:_findClosestEnemy(unitlayer)
+  local enemy, dist, dx, dy
+  if self.enemy then
+    dist, dx, dy = distanceBetweenUnits(self, self.enemy)
+    if not self.body.melee or (self.body.melee and dist > self.sight) or not self.enemy:isAlive() then
+      self.enemy = nil
+      enemy = nil
+    else
+      enemy = self.enemy
+    end
+  end
+  
+  if not enemy then
+    enemy, dist, dx, dy = self:_findClosestEnemy(unitlayer)
+  end
   
   if enemy then
     self:_attackEnemy(intention, enemy, dist, dx, dy)
+    self.enemy = enemy
   end
   
   return intention
