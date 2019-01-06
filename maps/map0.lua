@@ -283,6 +283,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
+            ["behaviour"] = "Aggressive",
             ["count"] = "3",
             ["unit"] = "spider"
           }

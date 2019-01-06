@@ -14,13 +14,14 @@ Behaviour = {}
 Behaviour.__index = Behaviour
 setmetatable(Behaviour, {
   __call = function (cls, ...)
-    return cls.new(...)
+    local self = setmetatable({}, cls)
+    self:_init(...)
+    return self
   end,
 })
 
-function Behaviour.new(body, fraction)
-  local self = setmetatable({}, Behaviour)
-  
+function Behaviour:_init(body, fraction)
+
   self.body = body
   self.fraction = fraction
   
@@ -50,6 +51,36 @@ function Behaviour:_findClosestEnemy(unitlayer)
   return enemy, distance, dx, dy
 end
 
+function Behaviour:_attackEnemy(intention, enemy, dist, dx, dy)
+  -- check if in melee reach
+  if self.body.melee and self.body.melee.reach >= dist then
+    intention.melee = {
+      unit = enemy,
+      dx = dx,
+      dy = dy,
+      dir = math.atan2(dy, dx),
+      dist = dist
+    }
+  -- check if in range reach
+  elseif self.body.range and self.body.range.reach >= dist then
+    intention.range = {
+      unit = enemy,
+      dx = dx,
+      dy = dy,
+      dir = math.atan2(dy, dx),
+      dist = dist
+    }
+  -- check if any attack possible, then move closer
+  elseif self.body.melee or self.body.range then
+    intention.move = {
+      dx = dx,
+      dy = dy,
+      dir = math.atan2(dy, dx),
+      dist = dist
+    }
+  end
+end
+
 function Behaviour:update(dt, unitlayer)
   local intention = {
   }
@@ -72,43 +103,19 @@ function Behaviour:update(dt, unitlayer)
   local enemy, dist, dx, dy = self:_findClosestEnemy(unitlayer)
   
   if enemy then
-    -- check if in melee reach
-    if self.body.melee and self.body.melee.reach >= dist then
-      intention.melee = {
-        unit = enemy,
-        dx = dx,
-        dy = dy,
-        dir = math.atan2(dy, dx),
-        dist = dist
-      }
-    -- check if in range reach
-    elseif self.body.range and self.body.range.reach >= dist then
-      intention.range = {
-        unit = enemy,
-        dx = dx,
-        dy = dy,
-        dir = math.atan2(dy, dx),
-        dist = dist
-      }
-    -- check if any attack possible, then move closer
-    elseif self.body.melee or self.body.range then
-      intention.move = {
-        dx = dx,
-        dy = dy,
-        dir = math.atan2(dy, dx),
-        dist = dist
-      }
-    end
-
+    self:_attackEnemy(intention, enemy, dist, dx, dy)
   end
   
   return intention
 end
 
-BehaviourAggressive = {}
-BehaviourAggressive.__index = BehaviourAggressive
+--
+-- Attacks every enemy (not own fraction) in sight
+--
+Aggressive = {}
+Aggressive.__index = Aggressive
 
-setmetatable(BehaviourAggressive, {
+setmetatable(Aggressive, {
   __index = Behaviour, -- this is what makes the inheritance work
   __call = function (cls, ...)
     local self = setmetatable({}, cls)
@@ -116,3 +123,15 @@ setmetatable(BehaviourAggressive, {
     return self
   end,
 })
+
+function Aggressive:update(dt, unitlayer)
+  local intention = {}
+  local enemy, dist, dx, dy = self:_findClosestEnemy(unitlayer)
+  
+  if enemy then
+    self:_attackEnemy(intention, enemy, dist, dx, dy)
+  end
+  
+  return intention
+end
+

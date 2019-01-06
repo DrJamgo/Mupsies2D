@@ -36,7 +36,7 @@ function love.load()
       local count = o.properties.count or 1
       local unit = unitindex[o.properties.unit] or unitindex.spider
       for i = 1, count do
-        layer.units[#layer.units+1] = GenericUnit(world, {x=o.x, y=o.y}, o.name, unit)
+        layer.units[#layer.units+1] = GenericUnit(world, {x=o.x, y=o.y}, o.name, unit, o.properties.behaviour)
       end
       
     end

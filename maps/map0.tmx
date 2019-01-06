@@ -36,6 +36,7 @@
   <object id="16" name="player" type="spawn" x="227.333" y="396.833"/>
   <object id="17" name="enemy" type="spawn" x="384.167" y="240.5" width="79" height="79">
    <properties>
+    <property name="behaviour" value="Aggressive"/>
     <property name="count" value="3"/>
     <property name="unit" value="spider"/>
    </properties>

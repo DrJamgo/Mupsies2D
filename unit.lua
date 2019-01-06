@@ -68,13 +68,17 @@ unitindex = {
 
 local default = unitindex.mupsie
 
-function GenericUnit._init(self, world, spawn, fraction, unit)
+function GenericUnit._init(self, world, spawn, fraction, unit, behaviour)
 
   local default = utils.deepcopy(default)
   local params = utils.merge(default, unit or {})
 
   self.body = Body(world, spawn, params.body)
-  self.behaviour = Behaviour(self.body, fraction)
+  if behaviour and _G[behaviour] then
+    self.behaviour = _G[behaviour](self.body, fraction)
+  else
+    self.behaviour = Behaviour(self.body, fraction)
+  end
   self.appearance = Appearance(self, self.body, params.appearance)
   
   self.hp = params.hpmax
