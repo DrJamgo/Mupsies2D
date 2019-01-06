@@ -152,7 +152,7 @@ end
 function AbilityAttack:update(dt)
   local attack = Ability.update(self, dt)
 
-  if attack then
+  if attack and (self.intention and (self.intention.dist <= self.reach)) then
     self.target.body.body:applyLinearImpulse(math.cos(self.dir) * self.damage, math.sin(self.dir) * self.damage * 100)
     self.target:hit(self.damage)
   end
@@ -161,6 +161,7 @@ function AbilityAttack:update(dt)
     if self:activate() then
       self.target = self.intention.unit
       self.dir = self.intention.dir
+      self.body:setAngle(self.dir)
     end
   end
 end
