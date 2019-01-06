@@ -133,14 +133,19 @@ end
 function love.draw()
   
   local s = 2.0
-  local dx = (love.graphics.getWidth() / 2) / 2 - player.body.body:getX()
-  local dy = (love.graphics.getHeight() / 2) / 2 - player.body.body:getY()
+  local dx = (love.graphics.getWidth() / 2) / 2 - (player.body.body:getX()  * 0.75 + wx * 0.25) 
+  local dy = (love.graphics.getHeight() / 2) / 2 - (player.body.body:getY() * 0.75 + wy * 0.25) 
   
+  local w = map.width * map.tilewidth
+  local h = map.height * map.tileheight
+  
+  dx = math.max(math.min(dx, 0), -(w - love.graphics.getWidth() / s))
+  dy = math.max(math.min(dy, 0), -(h - love.graphics.getHeight() / s))
   
   love.graphics.setColor(255, 255, 255)
   displayTransform = love.math.newTransform()
   displayTransform:scale(s)
-  displayTransform:translate(dx, dy)
+  displayTransform:translate(dx , dy)
 
   love.graphics.replaceTransform(displayTransform)
   
