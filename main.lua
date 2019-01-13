@@ -3,7 +3,7 @@ if arg[#arg] == "-debug" then require("mobdebug").start() end
 require 'unit'
 require 'units/player'
 
-local sti = require "sti"
+local sti = require "STI/sti"
 local utils = require "utils"
 
 displayTransform = love.math.newTransform()
