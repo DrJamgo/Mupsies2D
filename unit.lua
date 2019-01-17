@@ -22,7 +22,7 @@ unitindex = {
     hpmax = 100,
     
     body = {
-      size = 24,
+      size = 32,
       strength = 1000,
       mass = 50,
       melee = {

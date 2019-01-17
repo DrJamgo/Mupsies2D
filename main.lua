@@ -19,11 +19,21 @@ function love.load()
   world = love.physics.newWorld(0, 0, true)
 
   -- load map and initialize box2d objects
-  map = sti("maps/map0.lua", { "box2d" })
+  map = sti("maps/oasis.lua", { "box2d" })
   map:box2d_init(world)
   
+  local layer
+  for k, o in pairs(map.layers) do
+    if map.layers[k].name == "units" then
+      layer = map.layers[k]
+      break
+    end
+  end
+  
   -- Create new dynamic data layer called "Sprites" as the 8th layer
-	local layer = map:addCustomLayer("units")
+  if not layer then
+    layer = map:addCustomLayer("units")
+  end
   
   layer.units = {}
   
@@ -132,7 +142,7 @@ end
 
 function love.draw()
   
-  local s = 2.0
+  local s = 1.5
   local dx = (love.graphics.getWidth() / 2) / 2 - (player.body.body:getX()  * 0.75 + wx * 0.25) 
   local dy = (love.graphics.getHeight() / 2) / 2 - (player.body.body:getY() * 0.75 + wy * 0.25) 
   
