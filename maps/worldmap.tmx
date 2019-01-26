@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="25" height="19" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="22">
+ <objectgroup id="4" name="places">
+  <object id="1" name="01_oasis" x="418" y="494">
+   <point/>
+  </object>
+  <object id="7" name="03_pass" x="260.667" y="434">
+   <point/>
+  </object>
+  <object id="8" name="05_orks" x="134.667" y="350">
+   <point/>
+  </object>
+  <object id="10" name="09_rangers" x="148.667" y="202">
+   <point/>
+  </object>
+  <object id="11" name="11_damm" x="298.667" y="230.667">
+   <point/>
+  </object>
+  <object id="12" name="13_town" x="356.667" y="307.333">
+   <point/>
+  </object>
+  <object id="13" name="15_harbor" x="473.333" y="290.667">
+   <point/>
+  </object>
+  <object id="14" name="19_temple" x="367.333" y="50">
+   <point/>
+  </object>
+  <object id="15" name="21_adit" x="482" y="358">
+   <point/>
+  </object>
+  <object id="16" name="23_mine" x="583.333" y="392">
+   <point/>
+  </object>
+  <object id="17" name="25_outlet" x="688" y="227.333">
+   <point/>
+  </object>
+  <object id="18" name="27_vulcano" x="652" y="114">
+   <point/>
+  </object>
+  <object id="20" name="07_forestedge" x="147.333" y="275.333">
+   <point/>
+  </object>
+  <object id="21" name="17_threshold" x="446" y="196">
+   <point/>
+  </object>
+ </objectgroup>
+ <imagelayer id="2" name="Image Layer 1" offsetx="6" offsety="0">
+  <image source="../worldmap_colored.png" width="800" height="600"/>
+ </imagelayer>
+</map>

@@ -34,7 +34,7 @@ unitindex = {
       },
       move = {
         cooldown = 0.2,
-        force = 1000
+        force = 2000
       }
     },
     appearance = {

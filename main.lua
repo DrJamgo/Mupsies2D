@@ -3,6 +3,8 @@ if arg[#arg] == "-debug" then require("mobdebug").start() end
 require 'unit'
 require 'units/player'
 
+require 'gamestate'
+
 local sti = require "STI/sti"
 local utils = require "utils"
 
@@ -13,13 +15,15 @@ local player
 
 mybutton = 2
 
+gamestate = Gamestate()
+
 function love.load()
   
   love.physics.setMeter(32) --the height of a meter our worlds will be 64px
   world = love.physics.newWorld(0, 0, true)
 
   -- load map and initialize box2d objects
-  map = sti("maps/oasis.lua", { "box2d" })
+  map = sti("maps/"..gamestate.mapname..".lua", { "box2d" })
   map:box2d_init(world)
   
   local layer
@@ -40,7 +44,7 @@ function love.load()
     -- find Spawn objetct in map
   local spawn = {x=0,y=0}
   for k, o in pairs(map.objects) do
-    if o.name == "player" and o.type == "spawn" then
+    if o.name == gamestate.exitname and o.type == "exit" then
       spawn = {x=o.x,y=o.y}
     elseif o.type == "spawn" then
       local count = o.properties.count or 1
@@ -55,8 +59,11 @@ function love.load()
   player = Player(world, spawn)
   layer.units[#layer.units+1] = player
 
-  for i = 1, 3 do
-    layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player')
+  if not map.properties.safe then
+    for k,v in pairs(gamestate.units) do
+      local unit = unitindex[v]
+      layer.units[#layer.units+1] = GenericUnit(world, spawn, 'player', unit)
+    end
   end
  
   -- Draw units layer
