@@ -10,7 +10,7 @@ local utils = require "utils"
 
 displayTransform = love.math.newTransform()
 
-local wx,wy
+local wx,wy = 0,0
 local player
 
 mybutton = 2
@@ -46,7 +46,7 @@ function love.load()
   local spawn = {x=0,y=0}
   for k, o in pairs(map.objects) do
     if o.name == gamestate.exitname and o.type == "exit" then
-      spawn = {x=o.x,y=o.y}
+      spawn = {x=o.x + o.width/2,y=o.y + o.height/2}
     elseif o.type == "spawn" then
       local count = o.properties.count or 1
       local unit = unitindex[o.properties.unit] or unitindex.spider
@@ -151,8 +151,8 @@ end
 function love.draw()
   
   local s = 1.5
-  local dx = (love.graphics.getWidth() / 2) / 2 - (player.body.body:getX()  * 0.75 + wx * 0.25) 
-  local dy = (love.graphics.getHeight() / 2) / 2 - (player.body.body:getY() * 0.75 + wy * 0.25) 
+  local dx = (love.graphics.getWidth() /s) / 2 - (player.body.body:getX() * 0.80 + wx * 0.2) 
+  local dy = (love.graphics.getHeight() / s) / 2 - (player.body.body:getY() * 0.80 + wy * 0.2) 
   
   local w = map.width * map.tilewidth
   local h = map.height * map.tileheight
