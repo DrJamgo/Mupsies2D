@@ -1,3 +1,5 @@
+require 'saveload'
+
 Gamestate = {}
 Gamestate.__index = Gamestate
 setmetatable(Gamestate, {
@@ -9,20 +11,32 @@ setmetatable(Gamestate, {
 })
 
 function Gamestate:_init(filename)
-  if filename then
-    -- TODO: load from file
+  self.progress = 0
+  self.units = {}
+  self.items = {}
+  
+  self:load(filename)
+end
+
+function Gamestate:load(filename)
+  
+  local state, err = table.load(filename or "auto.save.lua")
+  
+  if state ~= nil then
+    for k,v in pairs(state) do
+      self[k] = v
+    end
   else
-    -- load default game
     self.progress = 0
-    self:setLocation("01_oasis", "w")
-    self.units = {}
+    self:setLocation("01_oasis", "e")
     self:addUnit("mupsie")
     self:addUnit("mupsie")
-    self:addUnit("mupsie")
-    self:addUnit("mupsie")
-    self.items = {}
     self:addRemoveItem('meat', 3)
   end
+end
+
+function Gamestate:save(filename)
+  table.save(self, filename or "auto.save.lua")
 end
 
 function Gamestate:addRemoveItem(itemtype, delta)
