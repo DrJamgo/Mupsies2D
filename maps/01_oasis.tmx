@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="9">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="9">
  <properties>
   <property name="safe" type="bool" value="true"/>
  </properties>
@@ -7,6 +7,36 @@
  <tileset firstgid="1025" source="../assets/lpc-beach-desert/lpc-beach-desert.tsx"/>
  <tileset firstgid="2049" source="sand.tsx"/>
  <tileset firstgid="2157" source="../assets/adobe-2.tsx"/>
+ <objectgroup id="13" name="spawn">
+  <object id="7" name="e" type="exit" x="929.333" y="481.333" width="61.3333" height="125.333"/>
+  <object id="8" name="w" type="exit" x="1.33333" y="396" width="32" height="340">
+   <properties>
+    <property name="exit" value="e"/>
+    <property name="map" value="02_desert"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup color="#ff0000" id="8" name="obstacles">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
+  <object id="1" x="670.667" y="323.333">
+   <polygon points="0,0 -0.666667,90.6667 -61.3333,90.6667 -62,28.6667 -125.333,27.3333 -124.667,-129.333 194,-130 193.333,28 129.333,28 128.667,92 64.6667,92.6667 65.3333,-2.66667"/>
+  </object>
+  <object id="2" x="381.333" y="383.333">
+   <properties>
+    <property name="collidable" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 -252.667,-2.66667 -300,-17.3333 -301.333,-110 97.3333,-110.667 96.6667,-1.33333"/>
+  </object>
+  <object id="3" x="299.5" y="609.5">
+   <properties>
+    <property name="collidable" type="bool" value="true"/>
+   </properties>
+   <polygon points="0,0 45,-54 159.5,-55 177.5,-27 207.5,-57 316.5,-56.5 334,-31.5 318,-13.5 318,11.5 332.5,31 335,57 318.5,83 272,83.5 212.5,18 113.5,19.5 90,-6.5 69.5,5.5 79.5,23 62.5,50 44.5,48"/>
+  </object>
+  <object id="6" x="160" y="673.333" width="30.6667" height="30"/>
+ </objectgroup>
  <layer id="1" name="Base" width="32" height="32">
   <data encoding="csv">
 2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,2077,
@@ -223,15 +253,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="9" name="units">
-  <object id="7" name="e" type="exit" x="929.333" y="481.333" width="61.3333" height="125.333"/>
-  <object id="8" name="w" type="exit" x="1.33333" y="396" width="32" height="340">
-   <properties>
-    <property name="exit" value="e"/>
-    <property name="map" value="02_desert"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup id="9" name="units"/>
  <layer id="6" name="after" width="32" height="32">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -304,25 +326,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup color="#ff0000" id="8" name="Obstacles" visible="0">
-  <properties>
-   <property name="collidable" type="bool" value="true"/>
-  </properties>
-  <object id="1" x="670.667" y="323.333">
-   <polygon points="0,0 -0.666667,90.6667 -61.3333,90.6667 -62,28.6667 -125.333,27.3333 -124.667,-129.333 194,-130 193.333,28 129.333,28 128.667,92 64.6667,92.6667 65.3333,-2.66667"/>
-  </object>
-  <object id="2" x="381.333" y="383.333">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-   <polygon points="0,0 -252.667,-2.66667 -300,-17.3333 -301.333,-110 97.3333,-110.667 96.6667,-1.33333"/>
-  </object>
-  <object id="3" x="299.5" y="609.5">
-   <properties>
-    <property name="collidable" type="bool" value="true"/>
-   </properties>
-   <polygon points="0,0 45,-54 159.5,-55 177.5,-27 207.5,-57 316.5,-56.5 334,-31.5 318,-13.5 318,11.5 332.5,31 335,57 318.5,83 272,83.5 212.5,18 113.5,19.5 90,-6.5 69.5,5.5 79.5,23 62.5,50 44.5,48"/>
-  </object>
-  <object id="6" x="160" y="673.333" width="30.6667" height="30"/>
- </objectgroup>
 </map>

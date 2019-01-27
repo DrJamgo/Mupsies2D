@@ -8,7 +8,7 @@ return {
   height = 32,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 13,
+  nextlayerid = 14,
   nextobjectid = 9,
   properties = {
     ["safe"] = true
@@ -120,6 +120,163 @@ return {
     }
   },
   layers = {
+    {
+      type = "objectgroup",
+      id = 13,
+      name = "spawn",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 7,
+          name = "e",
+          type = "exit",
+          shape = "rectangle",
+          x = 929.333,
+          y = 481.333,
+          width = 61.3333,
+          height = 125.333,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 8,
+          name = "w",
+          type = "exit",
+          shape = "rectangle",
+          x = 1.33333,
+          y = 396,
+          width = 32,
+          height = 340,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["exit"] = "e",
+            ["map"] = "02_desert"
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 8,
+      name = "obstacles",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {
+        ["collidable"] = true
+      },
+      objects = {
+        {
+          id = 1,
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 670.667,
+          y = 323.333,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = -0.666667, y = 90.6667 },
+            { x = -61.3333, y = 90.6667 },
+            { x = -62, y = 28.6667 },
+            { x = -125.333, y = 27.3333 },
+            { x = -124.667, y = -129.333 },
+            { x = 194, y = -130 },
+            { x = 193.333, y = 28 },
+            { x = 129.333, y = 28 },
+            { x = 128.667, y = 92 },
+            { x = 64.6667, y = 92.6667 },
+            { x = 65.3333, y = -2.66667 }
+          },
+          properties = {}
+        },
+        {
+          id = 2,
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 381.333,
+          y = 383.333,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = -252.667, y = -2.66667 },
+            { x = -300, y = -17.3333 },
+            { x = -301.333, y = -110 },
+            { x = 97.3333, y = -110.667 },
+            { x = 96.6667, y = -1.33333 }
+          },
+          properties = {
+            ["collidable"] = true
+          }
+        },
+        {
+          id = 3,
+          name = "",
+          type = "",
+          shape = "polygon",
+          x = 299.5,
+          y = 609.5,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polygon = {
+            { x = 0, y = 0 },
+            { x = 45, y = -54 },
+            { x = 159.5, y = -55 },
+            { x = 177.5, y = -27 },
+            { x = 207.5, y = -57 },
+            { x = 316.5, y = -56.5 },
+            { x = 334, y = -31.5 },
+            { x = 318, y = -13.5 },
+            { x = 318, y = 11.5 },
+            { x = 332.5, y = 31 },
+            { x = 335, y = 57 },
+            { x = 318.5, y = 83 },
+            { x = 272, y = 83.5 },
+            { x = 212.5, y = 18 },
+            { x = 113.5, y = 19.5 },
+            { x = 90, y = -6.5 },
+            { x = 69.5, y = 5.5 },
+            { x = 79.5, y = 23 },
+            { x = 62.5, y = 50 },
+            { x = 44.5, y = 48 }
+          },
+          properties = {
+            ["collidable"] = true
+          }
+        },
+        {
+          id = 6,
+          name = "",
+          type = "",
+          shape = "rectangle",
+          x = 160,
+          y = 673.333,
+          width = 30.6667,
+          height = 30,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
     {
       type = "tilelayer",
       id = 1,
@@ -424,37 +581,7 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {
-        {
-          id = 7,
-          name = "e",
-          type = "exit",
-          shape = "rectangle",
-          x = 929.333,
-          y = 481.333,
-          width = 61.3333,
-          height = 125.333,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 8,
-          name = "w",
-          type = "exit",
-          shape = "rectangle",
-          x = 1.33333,
-          y = 396,
-          width = 32,
-          height = 340,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["exit"] = "e",
-            ["map"] = "02_desert"
-          }
-        }
-      }
+      objects = {}
     },
     {
       type = "tilelayer",
@@ -552,121 +679,6 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-      }
-    },
-    {
-      type = "objectgroup",
-      id = 8,
-      name = "Obstacles",
-      visible = false,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {
-        ["collidable"] = true
-      },
-      objects = {
-        {
-          id = 1,
-          name = "",
-          type = "",
-          shape = "polygon",
-          x = 670.667,
-          y = 323.333,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          polygon = {
-            { x = 0, y = 0 },
-            { x = -0.666667, y = 90.6667 },
-            { x = -61.3333, y = 90.6667 },
-            { x = -62, y = 28.6667 },
-            { x = -125.333, y = 27.3333 },
-            { x = -124.667, y = -129.333 },
-            { x = 194, y = -130 },
-            { x = 193.333, y = 28 },
-            { x = 129.333, y = 28 },
-            { x = 128.667, y = 92 },
-            { x = 64.6667, y = 92.6667 },
-            { x = 65.3333, y = -2.66667 }
-          },
-          properties = {}
-        },
-        {
-          id = 2,
-          name = "",
-          type = "",
-          shape = "polygon",
-          x = 381.333,
-          y = 383.333,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          polygon = {
-            { x = 0, y = 0 },
-            { x = -252.667, y = -2.66667 },
-            { x = -300, y = -17.3333 },
-            { x = -301.333, y = -110 },
-            { x = 97.3333, y = -110.667 },
-            { x = 96.6667, y = -1.33333 }
-          },
-          properties = {
-            ["collidable"] = true
-          }
-        },
-        {
-          id = 3,
-          name = "",
-          type = "",
-          shape = "polygon",
-          x = 299.5,
-          y = 609.5,
-          width = 0,
-          height = 0,
-          rotation = 0,
-          visible = true,
-          polygon = {
-            { x = 0, y = 0 },
-            { x = 45, y = -54 },
-            { x = 159.5, y = -55 },
-            { x = 177.5, y = -27 },
-            { x = 207.5, y = -57 },
-            { x = 316.5, y = -56.5 },
-            { x = 334, y = -31.5 },
-            { x = 318, y = -13.5 },
-            { x = 318, y = 11.5 },
-            { x = 332.5, y = 31 },
-            { x = 335, y = 57 },
-            { x = 318.5, y = 83 },
-            { x = 272, y = 83.5 },
-            { x = 212.5, y = 18 },
-            { x = 113.5, y = 19.5 },
-            { x = 90, y = -6.5 },
-            { x = 69.5, y = 5.5 },
-            { x = 79.5, y = 23 },
-            { x = 62.5, y = 50 },
-            { x = 44.5, y = 48 }
-          },
-          properties = {
-            ["collidable"] = true
-          }
-        },
-        {
-          id = 6,
-          name = "",
-          type = "",
-          shape = "rectangle",
-          x = 160,
-          y = 673.333,
-          width = 30.6667,
-          height = 30,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
       }
     }
   }

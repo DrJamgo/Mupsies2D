@@ -65,5 +65,24 @@ function utils.deepcopy(orig)
     return copy
 end
 
+-- from https://stackoverflow.com/questions/656199/search-for-an-item-in-a-lua-list
+
+function table.find(f, l) -- find element v of l satisfying f(v)
+  for _, v in ipairs(l) do
+    if f(v) then
+      return v
+    end
+  end
+  return nil
+end
+
+
+function utils.inarea(object, area)
+  return 
+        object.x > area.x 
+    and object.x < area.x + area.width 
+    and object.y > area.y 
+    and object.y < area.y + area.height
+end
 
 return utils

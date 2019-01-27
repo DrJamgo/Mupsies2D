@@ -138,7 +138,7 @@ return {
     {
       type = "objectgroup",
       id = 5,
-      name = "objects",
+      name = "spawn",
       visible = true,
       opacity = 1,
       offsetx = 0,
@@ -161,7 +161,7 @@ return {
         },
         {
           id = 4,
-          name = "",
+          name = "e",
           type = "exit",
           shape = "rectangle",
           x = 964,

@@ -21,7 +21,10 @@ function Body.new(world, spawn, bodyparams)
   self.strength = bodyparams.strength
 
   -- init box2d objects
-  self.body = love.physics.newBody(world, spawn.x + math.random(5), spawn.y + math.random(5), "dynamic")
+  self.body = love.physics.newBody(world,
+    spawn.x + (spawn.width or 0)/2 + math.random(5),
+    spawn.y + (spawn.height or 0)/2 + math.random(5),
+    "dynamic")
   self.body:setFixedRotation(true)
   self.shape = love.physics.newCircleShape(self.size / 2)
   self.fixture = love.physics.newFixture(self.body, self.shape)

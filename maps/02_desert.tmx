@@ -13,9 +13,9 @@
    <polygon points="0,0 32,1 67,33 103,33 117,97 203,97 207,210 144,215 147,304 173,331 181,370 231,387 240,465 1,460"/>
   </object>
  </objectgroup>
- <objectgroup id="5" name="objects">
+ <objectgroup id="5" name="spawn">
   <object id="3" type="exit" x="2" y="466" width="56" height="91"/>
-  <object id="4" type="exit" x="964" y="465.5" width="56" height="91">
+  <object id="4" name="e" type="exit" x="964" y="465.5" width="56" height="91">
    <properties>
     <property name="exit" value="w"/>
     <property name="map" value="01_oasis"/>

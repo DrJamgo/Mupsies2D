@@ -39,7 +39,7 @@ function Behaviour:_findClosestEnemy(unitlayer)
   local enemy = nil
   local distance = nil
   local dx, dy
-  for k,v in pairs(unitlayer.units) do
+  for k,v in pairs(unitlayer.objects) do
     if self:_isUnitEnemy(v) and v:isAlive() then
       dist, _dx, _dy = distanceBetweenUnits(self, v)
       if dist < self.sight and (not distance or dist < distance) then
