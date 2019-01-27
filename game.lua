@@ -21,12 +21,21 @@ function Game:save(filename)
 end
 
 function Game:enter(mapname, exitname)
+  
   love.physics.setMeter(32) --the height of a meter our worlds will be 64px
   world = love.physics.newWorld(0, 0, true)
 
+  if mapname and exitname then
+    self.state:setLocation(mapname, exitname)
+  end
+
   -- load map and initialize box2d objects
-  map = sti("maps/"..(mapname or self.state.mapname)..".lua", { "box2d" })
+  map = sti("maps/"..(self.state.mapname)..".lua", { "box2d" })
   map:box2d_init(world)
+  
+  if map.properties.sefe then
+    self.state:save()
+  end
   
   -- find/create units layer
   local unitslayer = table.find(function(v) return v.name == "units" end, map.layers)
@@ -39,7 +48,7 @@ function Game:enter(mapname, exitname)
   
     -- find Spawn object in map
   local spawn = table.find(
-    function(o) return o.name == (exitname or self.state.exitname) and o.type == "exit" end, spawnlayer.objects)
+    function(o) return o.name == (self.state.exitname) and o.type == "exit" end, spawnlayer.objects)
   
   for k, o in pairs(spawnlayer.objects) do
     if o.type == "spawn" then
@@ -126,6 +135,10 @@ function Game:enter(mapname, exitname)
 end
 
 function Game:leave()
+  if self.map.properties.safe then
+    self.state:save()
+  end
+  
   self.world:destroy()
   self.world:release()
   self.world = nil
@@ -147,7 +160,8 @@ function Game:update(dt)
   end
   self.area = currentarea
   
-  if currentarea and currentarea ~= lastarea and currentarea.type == "exit" then
+  if currentarea and currentarea ~= lastarea 
+      and currentarea.type == "exit" and currentarea.properties.map then
     self:leave()
     self:enter(currentarea.properties.map, currentarea.properties.exit)
   end
