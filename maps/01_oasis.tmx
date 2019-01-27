@@ -8,7 +8,7 @@
  <tileset firstgid="2049" source="sand.tsx"/>
  <tileset firstgid="2157" source="../assets/adobe-2.tsx"/>
  <objectgroup id="13" name="spawn">
-  <object id="7" name="e" type="exit" x="929.333" y="481.333" width="61.3333" height="125.333"/>
+  <object id="7" name="e" type="exit" x="929.333" y="481.333" width="94" height="125.333"/>
   <object id="8" name="w" type="exit" x="1.33333" y="396" width="32" height="340">
    <properties>
     <property name="exit" value="e"/>

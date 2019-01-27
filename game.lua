@@ -1,4 +1,5 @@
 require 'gamestate'
+require 'hud'
 local utils = require 'utils'
 local sti = require "STI/sti"
 
@@ -67,8 +68,7 @@ function Game:enter(mapname, exitname)
   
   if not map.properties.safe then
     for k,v in pairs(self.state.units) do
-      local unit = unitindex[v]
-      unitslayer.objects[#unitslayer.objects+1] = GenericUnit(world, spawn, 'player', unit)
+      unitslayer.objects[#unitslayer.objects+1] = GenericUnit(world, spawn, 'player', v)
     end
   end  
     -- Draw units layer
@@ -127,6 +127,9 @@ function Game:enter(mapname, exitname)
     end
 	end
   
+  hudlayer = map:addCustomLayer("hud")
+  Hud._init(hudlayer, self)
+  
   self.world = world
   self.map = map
   self.unitslayer = unitslayer
@@ -169,36 +172,49 @@ end
 
 function Game:draw()
 
+  self.scale = 1.5
+
   local wx = self.player.body.body:getX()
   local wy = self.player.body.body:getY()
 
-  local s = 1.5
-  local dx = (love.graphics.getWidth() /s) / 2 - (self.player.body.body:getX() * 0.80 + wx * 0.2) 
-  local dy = (love.graphics.getHeight() / s) / 2 - (self.player.body.body:getY() * 0.80 + wy * 0.2) 
+  local dx = (love.graphics.getWidth() / self.scale) / 2 - (self.player.body.body:getX() * 0.80 + wx * 0.2) 
+  local dy = (love.graphics.getHeight() / self.scale) / 2 - (self.player.body.body:getY() * 0.80 + wy * 0.2) 
   
   local w = map.width * map.tilewidth
   local h = map.height * map.tileheight
   
-  dx = math.max(math.min(dx, 0), -(w - love.graphics.getWidth() / s))
-  dy = math.max(math.min(dy, 0), -(h - love.graphics.getHeight() / s))
+  dx = math.max(math.min(dx, 0), -(w - love.graphics.getWidth() / self.scale))
+  dy = math.max(math.min(dy, 0), -(h - love.graphics.getHeight() / self.scale))
   
   love.graphics.setColor(255, 255, 255)
   displayTransform = love.math.newTransform()
-  displayTransform:scale(s)
+  displayTransform:scale(self.scale)
   displayTransform:translate(dx , dy)
 
   love.graphics.replaceTransform(displayTransform)
   
-	map:draw(dx,dy,s,s)
+	map:draw(dx,dy,self.scale,self.scale)
   if love.keyboard.isDown('b') then
     map:box2d_draw()
   end
+end
 
-  love.graphics.replaceTransform(love.math.newTransform())
-  love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-  
-  if self.area then
-    love.graphics.print("Area : "..tostring(self.area.name), 10, 40)
+function Game:mousereleased(x, y, button, istouch, presses)
+  for i = #self.map.layers, 1, -1 do
+    local layer = self.map.layers[i]
+    if layer.mousereleased then
+      local hit = layer:mousereleased(x, y, button, istouch, presses)
+      if hit then return hit end
+    end
   end
-  
+end
+
+function Game:mousemoved(x, y, dx, dy, istouch , button)
+  for i = #self.map.layers, 1, -1 do
+    local layer = self.map.layers[i]
+    if layer.mousemoved then
+      local hit = layer:mousemoved(x, y, dx, dy, istouch , button)
+      if hit then return hit end
+    end
+  end
 end

@@ -1,5 +1,6 @@
 require 'love'
 require 'love.physics'
+local unitindex = require('units/unitindex')
 local utils = require('utils')
 local lpcsprite = require('sprites/lpcsprite')
 
@@ -17,58 +18,11 @@ setmetatable(GenericUnit, {
   end,
 })
 
-unitindex = {
-  mupsie = {
-    hpmax = 100,
-    
-    body = {
-      size = 32,
-      strength = 1000,
-      mass = 50,
-      melee = {
-        cooldown = 1.0,
-        duration = 0.5,
-        trigger  = 0.3,
-        damage   = 10,
-        reach    = 16
-      },
-      move = {
-        cooldown = 0.2,
-        force = 2000
-      }
-    },
-    appearance = {
-      sprite = "mupsie"
-    }
-  },
-  spider = {
-    hpmax = 100,
-    
-    body = {
-      size = 16,
-      strength = 1000,
-      mass = 20,
-      melee = {
-        cooldown = 1.0,
-        duration = 0.5,
-        trigger  = 0.3,
-        damage   = 5,
-        reach    = 8
-      },
-      move = {
-        cooldown = 0.1,
-        force = 1000
-      }
-    },
-    appearance = {
-      sprite = "spider"
-    }
-  }
-}
-
 local default = unitindex.mupsie
 
-function GenericUnit._init(self, world, spawn, fraction, unit, behaviour)
+function GenericUnit._init(self, world, spawn, fraction, unitname, behaviour)
+
+  local unit = unitindex[unitname]
 
   local default = utils.deepcopy(default)
   local params = utils.merge(default, unit or {})

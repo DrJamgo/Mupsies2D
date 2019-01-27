@@ -37,9 +37,7 @@ function love.mousereleased( x, y, button, istouch, presses )
 end
 
 function love.mousemoved( x, y, dx, dy, istouch )
-
-  wx, wy = displayTransform:inverseTransformPoint( x, y )
-  
+  game:mousemoved(x, y, dx, dy, istouch, mybutton)
 end
 
 function love.update(dt)
