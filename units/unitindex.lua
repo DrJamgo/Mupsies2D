@@ -1,17 +1,17 @@
 local index = {}
 local utils = require 'utils'
   
-index.mupsie = {
+index.herder = {
   hpmax = 100,
   body = {
     size = 32, strength = 1000, mass = 50,
     melee = { cooldown = 1.0, duration = 0.5, trigger = 0.3, damage = 10, reach = 16 },
     move = { cooldown = 0.2, force = 2000 }
   },
-  appearance = { sprite = "mupsie" }
+  appearance = { sprite = "herder" }
 }
 
-index.mupsine = utils.deepcopy(index.mupsie)
+index.mupsine = utils.deepcopy(index.herder)
 index.mupsine.appearance.sprite = "mupsine"
 
 index.spider = {

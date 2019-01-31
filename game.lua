@@ -39,8 +39,8 @@ function Game:enter(mapname, exitname)
   end
   
   -- find/create units layer
-  local unitslayer = table.find(function(v) return v.name == "units" end, map.layers)
-  if not self.unitslayer then
+  local unitslayer = table.find(function(v) print(v.name) return v.name == "units" end, map.layers)
+  if not unitslayer then
     unitslayer = map:addCustomLayer("units")
   end
   unitslayer.objects = unitslayer.objects or {}

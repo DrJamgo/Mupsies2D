@@ -15,7 +15,7 @@ local player
 
 local game
 
-mybutton = 2
+local mybutton = 2
 
 function love.load()
   

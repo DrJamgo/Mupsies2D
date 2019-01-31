@@ -18,7 +18,7 @@ setmetatable(GenericUnit, {
   end,
 })
 
-local default = unitindex.mupsie
+local default = unitindex.herder
 
 function GenericUnit._init(self, world, spawn, fraction, unitname, behaviour)
 

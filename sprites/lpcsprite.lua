@@ -124,8 +124,8 @@ function lpcsprite.getQuad(sprite, animname, dir, time)
 end
 
 local spritesIndex = {
-  mupsie = {
-    file = "sprites/mupsie.png",
+  herder = {
+    file = "sprites/herder.png",
     sprites = lpcgen,
     draw = lpcsprite.draw
   },
