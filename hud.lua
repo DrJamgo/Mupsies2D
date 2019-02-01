@@ -1,14 +1,6 @@
 Hud = {}
-Hud.__index = Hud
-setmetatable(Hud, {
-  __call = function (cls, ...)
-    local self = setmetatable({}, cls)
-    self:_init(...)
-    return self
-  end,
-})
 
-function Hud:_init(game)
+function Hud:initLayer(game)
   self.game = game
   self.draw = Hud.draw
   self.update = Hud.update
