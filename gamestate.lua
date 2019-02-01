@@ -28,9 +28,7 @@ function Gamestate:load(filename)
     end
   else
     self.progress = 0
-    self:setLocation("01_oasis", "e")
-    self:addUnit("mupsie")
-    self:addUnit("mupsie")
+    self:setLocation("00_tutorial", "start")
     self:addRemoveItem('meat', 3)
   end
 end

@@ -9,7 +9,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 6,
-  nextobjectid = 5,
+  nextobjectid = 10,
   properties = {},
   tilesets = {
     {
@@ -164,16 +164,44 @@ return {
           name = "e",
           type = "exit",
           shape = "rectangle",
-          x = 964,
-          y = 465.5,
+          x = 965,
+          y = 446.5,
           width = 56,
-          height = 91,
+          height = 163,
           rotation = 0,
           visible = true,
           properties = {
             ["exit"] = "w",
             ["map"] = "01_oasis"
           }
+        },
+        {
+          id = 5,
+          name = "enemy",
+          type = "spawn",
+          shape = "rectangle",
+          x = 644,
+          y = 704,
+          width = 87,
+          height = 95,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["unit"] = "spider"
+          }
+        },
+        {
+          id = 8,
+          name = "",
+          type = "",
+          shape = "ellipse",
+          x = 759,
+          y = 88,
+          width = 147,
+          height = 135,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
