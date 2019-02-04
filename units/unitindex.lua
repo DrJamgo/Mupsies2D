@@ -8,7 +8,7 @@ index.herder = {
     melee = { cooldown = 1.0, duration = 0.5, trigger = 0.3, damage = 10, reach = 16 },
     move = { cooldown = 0.2, force = 2000 }
   },
-  appearance = { sprite = "herder" }
+  appearance = { sprite = "herder", thrust = true}
 }
 
 index.mupsine = utils.deepcopy(index.herder)

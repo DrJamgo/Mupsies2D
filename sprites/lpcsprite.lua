@@ -27,6 +27,16 @@ local lpcgen = {
   height = 1344,
   center = {32,48},
   animations = {
+    cast = {
+      frames = 6,
+      batchoffsetx = 1,
+      batchoffsety = 4 * 0
+    },
+    thrust = {
+      frames = 7,
+      batchoffsetx = 1,
+      batchoffsety = 4 * 1
+    },
     stand = {
       cycles = 1.0,
       frames  = 1,

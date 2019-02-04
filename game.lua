@@ -31,6 +31,8 @@ function Game:enter(mapname, exitname)
   if mapname and exitname then
     self.state:setLocation(mapname, exitname)
   end
+  
+  self.state:save()
 
   -- load map and initialize box2d objects
   map = sti("maps/"..(self.state.mapname)..".lua", { "box2d" })
@@ -38,10 +40,6 @@ function Game:enter(mapname, exitname)
   
   self.world = world
   self.map = map
-  
-  if map.properties.safe then
-    self.state:save()
-  end
   
   local spawnlayer = table.find(function(v) return v.name == "spawn" end, map.layers)
   SpawnLayer.initLayer(spawnlayer, self.state.exitname)
@@ -61,11 +59,7 @@ function Game:enter(mapname, exitname)
   self.player = player
 end
 
-function Game:leave()
-  if self.map.properties.safe then
-    self.state:save()
-  end
-  
+function Game:leave() 
   self.world:destroy()
   self.world:release()
   self.world = nil

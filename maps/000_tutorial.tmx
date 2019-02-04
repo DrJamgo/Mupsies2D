@@ -6,16 +6,16 @@
  <tileset firstgid="1" source="sand.tsx"/>
  <tileset firstgid="109" source="../assets/lpc_tile_atlas/lpc_tile_atlas.tsx"/>
  <tileset firstgid="1133" source="../assets/lpc-beach-desert/lpc-beach-desert.tsx"/>
- <objectgroup id="4" name="spawn">
+ <objectgroup color="#0000ff" id="4" name="spawn">
   <object id="2" name="start" type="exit" x="1" y="263" width="33" height="85"/>
   <object id="6" name="e" type="exit" x="202" y="2" width="127" height="57">
    <properties>
-    <property name="exit" value="s"/>
+    <property name="exit" value="start"/>
     <property name="map" value="0000_tutorial"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="8" name="obstacles">
+ <objectgroup color="#ff0000" id="8" name="obstacles">
   <object id="7" x="-2" y="256">
    <properties>
     <property name="collidable" type="bool" value="true"/>

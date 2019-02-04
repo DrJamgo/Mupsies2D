@@ -29,6 +29,9 @@ function Gamestate:load(filename)
   else
     self.progress = 0
     self:setLocation("00_tutorial", "start")
+    self:addUnit("herder")
+    self:addUnit("herder")
+    self:addUnit("herder")
     self:addRemoveItem('meat', 3)
   end
 end

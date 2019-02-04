@@ -10,7 +10,9 @@ return {
   tileheight = 32,
   nextlayerid = 14,
   nextobjectid = 8,
-  properties = {},
+  properties = {
+    ["safe"] = true
+  },
   tilesets = {
     {
       name = "sand",
@@ -128,7 +130,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["exit"] = "s",
+            ["exit"] = "start",
             ["map"] = "0000_tutorial"
           }
         }

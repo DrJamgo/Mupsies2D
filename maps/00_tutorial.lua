@@ -10,7 +10,9 @@ return {
   tileheight = 32,
   nextlayerid = 9,
   nextobjectid = 7,
-  properties = {},
+  properties = {
+    ["safe"] = true
+  },
   tilesets = {
     {
       name = "sand",

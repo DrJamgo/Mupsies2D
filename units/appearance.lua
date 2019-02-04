@@ -24,6 +24,7 @@ function Appearance.new(unit, body, params)
   self.sprite = lpcsprite.getSprite(params.sprite)
   self.anim = "stand"
   self.slash = 0
+  self.thrust = params.thrust or false
   
   self.damage = {}
   
@@ -44,7 +45,11 @@ function Appearance:update(dt)
     self.prone = (self.prone or 0) + dt
     self.time = self.prone
   elseif slash > 0 then
-    self.anim = "slash"
+    if self.thrust then
+      self.anim = "thrust"
+    else
+      self.anim = "slash"
+    end
     self.time = slash
   elseif math.abs(speed) > 5 then
     self.anim = "walk"
