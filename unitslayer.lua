@@ -9,6 +9,8 @@ function UnitsLayer:initLayer(game, spawnlayer)
   self.objects = self.objects or {}
   self.draw = UnitsLayer.draw
   self.update = UnitsLayer.update
+  self.mousemoved = UnitsLayer.mousemoved
+
   
   for k, o in pairs(spawnlayer.objects) do
     if o.type == "spawn" then
@@ -32,7 +34,7 @@ function UnitsLayer:initLayer(game, spawnlayer)
   end  
 end
 
-    -- Draw units layer
+-- Draw units layer
 function UnitsLayer:draw()
   for k,v in pairs(self.objects) do
     if v:isAlive() == false then
@@ -74,10 +76,19 @@ function UnitsLayer:update(dt)
   
   for k,v in pairs(self.objects) do
     if v:getFraction() == 'player' then
-      if mybutton == 1 then
-        v:setTarget({wx,wy})
-      elseif mybutton == 2 then
-        v:setTarget({self.player.body.body:getX(), self.player.body.body:getY()})
+      if self.cursor then
+        if self.cursor.button == 1 then
+          v:setTarget({self.cursor.wx, self.cursor.wy})
+        else
+          local distx = self.player.body.body:getX() - v.body.body:getX()
+          local disty = self.player.body.body:getY() - v.body.body:getY()
+          local dist = math.sqrt(distx*distx + disty*disty)
+          if dist > 128 then
+            v:setTarget({self.player.body.body:getX(), self.player.body.body:getY()})
+          else
+            v:setTarget(nil)
+          end
+        end
       end
     end
     
@@ -100,4 +111,7 @@ function UnitsLayer:update(dt)
   end
 end
 
-
+function UnitsLayer:mousemoved(x, y, dx, dy, istouch , button)
+  local wx, wy = love.graphics.inverseTransformPoint( x, y )
+  self.cursor = {x=x, y=y, wx=wx, wy=wy, button=button}
+end

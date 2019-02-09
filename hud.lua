@@ -33,4 +33,5 @@ end
 
 function Hud:mousemoved(x, y, dx, dy, istouch , button)
   self.cursor = {x=x,y=y}
+  return false
 end

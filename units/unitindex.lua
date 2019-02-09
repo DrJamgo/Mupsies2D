@@ -21,7 +21,7 @@ index.spider = {
     melee = { cooldown = 1.0, duration = 0.5, trigger = 0.3, damage = 5, reach = 8 },
     move = { cooldown = 0.1, force = 1000}
   },
-  appearance = { sprite = "spider" }
+  appearance = { sprite = "spider", thrust = false}
 }
 
 return index
